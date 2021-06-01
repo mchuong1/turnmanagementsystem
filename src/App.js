@@ -12,25 +12,6 @@ const useStyles = makeStyles({
     backgroundColor: '#fcefee',
     height: '100vh',
   },
-  container: {
-    height: '100vh'
-  },
-  primary: {
-    backgroundColor: '#fc5c9c',
-    color: '#fcefee',
-    width: '100%',
-  },
-  input: {
-    width: '100%',
-  },
-  header: {
-    backgroundColor: '#fc5c9c',
-    color: '#fcefee',
-    width: '100%',
-  },
-  dropDown: {
-    width: '100%'
-  },
   body: {
     display: 'grid',
     gridGap: '2em',
@@ -44,7 +25,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
     position: 'absolute',
     bottom: 0,
-    padding: '10px'
+    padding: '10px 0px'
   }
 })
 
