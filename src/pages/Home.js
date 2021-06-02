@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom'
 import {
   Button, TextField, Select, 
   InputLabel, MenuItem, Checkbox,
-  ListItemText, FormControl
+  ListItemText, FormControl, Typography, 
+  Card, CardContent, CardActions,
+  CircularProgress
 } from '@material-ui/core'
 
 const useStyles = makeStyles({
   root: {
-    backgroundColor: '#fcefee',
-    height: '100vh',
+    display: 'grid',
+    gridGap: '2em',
+    marginTop: '2em',
+    padding: '0px 20px'
   },
   container: {
     height: '100vh'
@@ -19,6 +22,7 @@ const useStyles = makeStyles({
     backgroundColor: '#fc5c9c',
     color: '#fcefee',
     width: '100%',
+    marginTop: '2em'
   },
   input: {
     width: '100%',
@@ -31,12 +35,6 @@ const useStyles = makeStyles({
   dropDown: {
     width: '100%'
   },
-  body: {
-    display: 'grid',
-    gridGap: '2em',
-    marginTop: '2em',
-    padding: '0px 20px'
-  },
 })
 
 export default function Home() {
@@ -45,6 +43,7 @@ export default function Home() {
   const [handService, setHandService] = useState([]);
   const [footService, setFootService] = useState([]);
   const [waxService, setWaxService] = useState([]);
+  const [isCheckingIn, setCheckingIn] = useState(false);
 
   //Mock Data
   //TODO: Fetch the data from somewhere
@@ -66,6 +65,14 @@ export default function Home() {
     'Service 4'
   ]
 
+  const handleCheckInButton = () => {
+    setCheckingIn(true)
+    setTimeout(() => {
+      window.location.href = '/confirm'
+      setCheckingIn(false)
+    }, 3000)
+  }
+
   const listValues = (data, type) => data.map((service) => (
       <MenuItem key={service} value={service}>
         <Checkbox checked={type.indexOf(service) > -1} />
@@ -74,50 +81,57 @@ export default function Home() {
     ));
 
   return (
-    <>
-      <TextField className={classes.input} id="standard-basic" label="Name" />
-      <TextField className={classes.input} id="standard-basic" label="Phone Number" />
-      <FormControl>
-        <InputLabel id="handservice">Hand Services</InputLabel>
-        <Select
-          labelId="handservice"
-          multiple
-          value={handService}
-          renderValue={(selected) => selected.join(', ')}
-          onChange={(event) => setHandService(event.target.value)}
+    <Card>
+      <CardContent classes={{root: classes.root}}>
+        <Typography variant="h4" style={{textAlign: 'center'}}>Welcome!</Typography>
+        <TextField className={classes.input} id="standard-basic" label="Name" />
+        <TextField className={classes.input} id="standard-basic" label="Phone Number" />
+        <FormControl>
+          <InputLabel id="handservice">Hand Services</InputLabel>
+          <Select
+            labelId="handservice"
+            multiple
+            value={handService}
+            renderValue={(selected) => selected.join(', ')}
+            onChange={(event) => setHandService(event.target.value)}
+          >
+            {listValues(hands, handService)}
+          </Select>
+        </FormControl>
+        <FormControl>
+          <InputLabel id="footservice">Foot Services</InputLabel>
+          <Select
+            labelId="footservice"
+            multiple
+            value={footService}
+            renderValue={(selected) => selected.join(', ')}
+            onChange={(event) => setFootService(event.target.value)}
+          >
+            {listValues(foot, footService)}
+          </Select>
+        </FormControl>
+        <FormControl>
+          <InputLabel id="waxservice">Wax Services</InputLabel>
+          <Select
+            labelId="waxservice"
+            multiple
+            value={waxService}
+            renderValue={(selected) => selected.join(', ')}
+            onChange={(event) => setWaxService(event.target.value)}
+          >
+            {listValues(wax, waxService)}
+          </Select>
+        </FormControl>
+      </CardContent>
+      <CardActions>
+        <Button 
+          className={classes.primary} 
+          variant="contained"
+          onClick={handleCheckInButton}
         >
-          {listValues(hands, handService)}
-        </Select>
-      </FormControl>
-      <FormControl>
-        <InputLabel id="footservice">Foot Services</InputLabel>
-        <Select
-          labelId="footservice"
-          multiple
-          value={footService}
-          renderValue={(selected) => selected.join(', ')}
-          onChange={(event) => setFootService(event.target.value)}
-        >
-          {listValues(foot, footService)}
-        </Select>
-      </FormControl>
-      <FormControl>
-        <InputLabel id="waxservice">Wax Services</InputLabel>
-        <Select
-          labelId="waxservice"
-          multiple
-          value={waxService}
-          renderValue={(selected) => selected.join(', ')}
-          onChange={(event) => setWaxService(event.target.value)}
-        >
-          {listValues(wax, waxService)}
-        </Select>
-      </FormControl>
-      <Button 
-        className={classes.primary} 
-        variant="contained"
-        onClick={() => window.location.href = '/confirm'}
-      >Check-in!</Button>
-    </>
+          {isCheckingIn ? <CircularProgress /> : 'Check in!'}
+        </Button>
+      </CardActions>
+    </Card>
   )
 }
