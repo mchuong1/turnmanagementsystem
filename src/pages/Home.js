@@ -86,6 +86,7 @@ export default function Home() {
         <Typography variant="h4" style={{textAlign: 'center'}}>Welcome!</Typography>
         <TextField className={classes.input} id="standard-basic" label="Name" />
         <TextField className={classes.input} id="standard-basic" label="Phone Number" />
+        <Typography variant="h6" style={{marginBottom: '-50px'}}>Services</Typography>
         <FormControl>
           <InputLabel id="handservice">Hand Services</InputLabel>
           <Select

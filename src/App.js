@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { BrowserRouter as Router, Switch, Route, Redirect, withRouter } from 'react-router-dom'
+import { BrowserRouter as Switch, Route } from 'react-router-dom'
 
 import Header from './components/Header'
 import Confirmation from './pages/Confirmation';
