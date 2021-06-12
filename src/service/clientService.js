@@ -1,7 +1,7 @@
 import Axios from 'axios'
 
-const url = 'http://localhost:4201'
+const hostUrl = process.env.REACT_APP_HOSTURL
 
 export function saveClient(data) {
-  return Axios.request({method: 'post', url: `${url}/client`, data: data})
+  return Axios.request({method: 'post', url: `${hostUrl}/client`, data: data})
 };
