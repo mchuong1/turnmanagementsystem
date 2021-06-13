@@ -7,6 +7,7 @@ import {
   Card, CardContent, CardActions,
   CircularProgress
 } from '@material-ui/core';
+import { withRouter } from 'react-router-dom';
 
 import { saveClient } from  '../service/clientService';
 
@@ -39,9 +40,10 @@ const useStyles = makeStyles({
   },
 })
 
-export default function Home() {
+function Home(props) {
   const classes = useStyles()
 
+  const { history } = props;
   const [name, setName] = useState();
   const [phoneNumber, setPhoneNumber] = useState();
   const [handService, setHandService] = useState([]);
@@ -74,7 +76,7 @@ export default function Home() {
 
     try {
       await saveClient({name, phoneNumber});
-      window.location.href = '/confirm';
+      history.push('/confirm');
       setCheckingIn(false);
     }
     catch (e) {
@@ -160,3 +162,5 @@ export default function Home() {
     </Card>
   )
 }
+
+export default withRouter(Home)
