@@ -110,6 +110,7 @@ function Home(props) {
             id="standard-basic" 
             label="Phone Number"
             onChange={event => setPhoneNumber(event.target.value)}
+            inputProps={{ inputMode: 'numeric', pattern: "[0-9]*" }}
             />
         </FormControl>
         <Typography variant="h6" style={{marginBottom: '-50px'}}>Services</Typography>
