@@ -1,7 +1,7 @@
 import Axios from 'axios'
 
-const hostUrl = process.env.REACT_APP_HOSTURL
+const hostUrl = '/.netlify/functions'
 
 export function saveClient(data) {
-  return Axios.request({method: 'post', url: `${hostUrl}/client`, data: data})
+  return Axios.request({method: 'post', url: `${hostUrl}/clients`, data: data})
 };
