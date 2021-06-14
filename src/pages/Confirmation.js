@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Typography } from '@material-ui/core';
+import { Button, Container, Typography } from '@material-ui/core';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 const useStyles = makeStyles({
@@ -14,11 +14,17 @@ const useStyles = makeStyles({
   icon:{
     color: '#fc5c9c',
     fontSize: '3em'
-  }
+  },
+  primary: {
+    backgroundColor: '#fc5c9c',
+    color: '#fcefee',
+    marginTop: '2em'
+  },
 });
 
 
-export default function Confirmation() {
+export default function Confirmation(props) {
+  const { history } = props;
   const classes = useStyles()
 
   return (
@@ -27,6 +33,13 @@ export default function Confirmation() {
         <Typography variant="h3">Confirmed</Typography>
         <CheckCircleOutlineIcon classes={{root: classes.icon}}/>
         <Typography>You should get a text message shortly with information regarding your appointment!</Typography>
+        <Button
+          className={classes.primary}
+          variant="contained"
+          onClick={() => history.push('/')}
+        >
+          Start Over
+        </Button>
       </Container>
     </>
   )
