@@ -9,13 +9,13 @@ import Home from './pages/Home'
 
 const useStyles = makeStyles({
   root: {
-    height: '100vh',
+    height: '100%',
   },
   body: {
     display: 'grid',
     gridGap: '2em',
     marginTop: '2em',
-    padding: '0px 20px',
+    padding: '0px 20px 20px 20px',
   },
   footer: {
     backgroundColor: '#fc5c9c',
@@ -23,7 +23,6 @@ const useStyles = makeStyles({
     width: '100%',
     textAlign: 'center',
     position: 'absolute',
-    bottom: 0,
     padding: '10px 0px'
   }
 })
@@ -40,9 +39,9 @@ function App() {
           <Route path='/confirm' component={Confirmation} />
         </Switch>
       </div>
-      {/* <div className={classes.footer}>
+      <div className={classes.footer}>
           <span>Copyright © 2021, Polish Nail, Inc. "Polish Nail" and logo are registered trademarks of Polish Nail, Inc</span>
-      </div> */}
+      </div>
     </>
   );
 }
