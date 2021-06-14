@@ -5,7 +5,7 @@ import {
   InputLabel, MenuItem, Checkbox,
   ListItemText, FormControl, Typography, 
   Card, CardContent, CardActions,
-  CircularProgress
+  CircularProgress, Radio, RadioGroup, FormControlLabel
 } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     display: 'grid',
     gridGap: '2em',
     marginTop: '2em',
-    padding: '0px 20px'
+    padding: '0px 20px',
   },
   container: {
     height: '100vh'
@@ -25,7 +25,6 @@ const useStyles = makeStyles({
     backgroundColor: '#fc5c9c',
     color: '#fcefee',
     width: '100%',
-    marginTop: '2em'
   },
   input: {
     width: '100%',
@@ -38,18 +37,23 @@ const useStyles = makeStyles({
   dropDown: {
     width: '100%'
   },
+  radio: {
+    display: 'flex'
+  }
 })
 
 function Home(props) {
   const classes = useStyles()
 
   const { history } = props;
+  const [formData, setFormData] = useState([]);
   const [name, setName] = useState();
   const [phoneNumber, setPhoneNumber] = useState();
   const [handService, setHandService] = useState([]);
   const [footService, setFootService] = useState([]);
   const [waxService, setWaxService] = useState([]);
   const [isCheckingIn, setCheckingIn] = useState(false);
+  const [radio, setRadio] = useState('');
 
   //Mock Data
   //TODO: Fetch the data from somewhere
@@ -75,6 +79,7 @@ function Home(props) {
     setCheckingIn(true)
 
     try {
+      console.log(formData);
       await saveClient({name, phoneNumber});
       history.push('/confirm');
       setCheckingIn(false);
@@ -150,16 +155,25 @@ function Home(props) {
             {listValues(wax, waxService)}
           </Select>
         </FormControl>
-      </CardContent>
-      <CardActions>
+        <FormControl component="fieldset">
+          <RadioGroup
+            classes={{root: classes.radio}}
+            aria-label="type" 
+            name="type" 
+            value={radio} 
+            onChange={(event) => setRadio(event.target.value)}>
+            <FormControlLabel value="appointment" control={<Radio />} label="Appointment" />
+            <FormControlLabel value="walk-in" control={<Radio />} label="Walk-in" />
+          </RadioGroup>
+        </FormControl>
         <Button 
           className={classes.primary} 
           variant="contained"
           onClick={handleCheckInButton}
-        >
-          {isCheckingIn ? <CircularProgress /> : 'Check in!'}
+          >
+          {isCheckingIn ? <CircularProgress size={24} /> : 'Check in!'}
         </Button>
-      </CardActions>
+      </CardContent>
     </Card>
   )
 }
