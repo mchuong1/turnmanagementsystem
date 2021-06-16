@@ -7,6 +7,8 @@ import {
   Card, CardContent,
   CircularProgress, Radio, RadioGroup, FormControlLabel
 } from '@material-ui/core';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import { withRouter } from 'react-router-dom';
 
 import { saveClient } from  '../service/clientService';
@@ -42,18 +44,25 @@ const useStyles = makeStyles({
   }
 })
 
+const validationSchema = yup.object({
+  name: yup
+    .string('Enter your Name.')
+    .required('Name is required.'),
+  phoneNumber: yup
+    .string('Enter your Phone Number.')
+    .min(9, 'Phone Number should be 9 numbers long.')
+    .required('Phone Number is required.'),
+  appointmentType: yup
+    .string()
+    .oneOf(["appointment", "walk-in"])
+    .required('Appointment Type is required.'),
+})
+
 function Home(props) {
   const classes = useStyles()
-
   const { history } = props;
-  const [formData, setFormData] = useState([]);
-  const [name, setName] = useState();
-  const [phoneNumber, setPhoneNumber] = useState();
-  const [handService, setHandService] = useState([]);
-  const [footService, setFootService] = useState([]);
-  const [waxService, setWaxService] = useState([]);
+
   const [isCheckingIn, setCheckingIn] = useState(false);
-  const [radio, setRadio] = useState('');
 
   //Mock Data
   //TODO: Fetch the data from somewhere
@@ -79,8 +88,7 @@ function Home(props) {
     setCheckingIn(true)
 
     try {
-      console.log(formData);
-      await saveClient({name, phoneNumber});
+      // await saveClient({name, phoneNumber});
       history.push('/confirm');
       setCheckingIn(false);
     }
@@ -89,6 +97,19 @@ function Home(props) {
       setCheckingIn(false);
     }
   }
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      phoneNumber: '',
+      handService: [],
+      footService: [],
+      waxService: [],
+      appointmentType: ''
+    },
+    // validationSchema: validationSchema,
+    onSubmit: handleCheckInButton,
+  });
 
   const listValues = (data, type) => data.map((service) => (
       <MenuItem key={service} value={service}>
@@ -101,78 +122,85 @@ function Home(props) {
     <Card>
       <CardContent classes={{root: classes.root}}>
         <Typography variant="h4" style={{textAlign: 'center'}}>Welcome!</Typography>
-        <FormControl required>
+        <form className={classes.root} onSubmit={formik.handleSubmit}>
           <TextField 
             className={classes.input} 
-            id="standard-basic" 
+            id="name"
+            name="name" 
             label="Name"
-            onChange={event => setName(event.target.value)}
-            />
-        </FormControl>
-        <FormControl required>
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            error={formik.touched.name && Boolean(formik.errors.name)}
+            helperText={formik.touched.name && formik.errors.name}
+          />
           <TextField 
             className={classes.input} 
-            id="standard-basic" 
+            id="phoneNumber" 
+            name="phoneNumber"
             label="Phone Number"
-            onChange={event => setPhoneNumber(event.target.value)}
+            value={formik.values.phoneNumber}
+            onChange={formik.handleChange}
+            error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+            helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
             inputProps={{ inputMode: 'numeric', pattern: "[0-9]*" }}
-            />
-        </FormControl>
-        <Typography variant="h6" style={{marginBottom: '-50px'}}>Services</Typography>
-        <FormControl>
-          <InputLabel id="handservice">Hand Services</InputLabel>
-          <Select
-            labelId="handservice"
-            multiple
-            value={handService}
-            renderValue={(selected) => selected.join(', ')}
-            onChange={(event) => setHandService(event.target.value)}
-          >
-            {listValues(hands, handService)}
-          </Select>
-        </FormControl>
-        <FormControl>
-          <InputLabel id="footservice">Foot Services</InputLabel>
-          <Select
-            labelId="footservice"
-            multiple
-            value={footService}
-            renderValue={(selected) => selected.join(', ')}
-            onChange={(event) => setFootService(event.target.value)}
-          >
-            {listValues(foot, footService)}
-          </Select>
-        </FormControl>
-        <FormControl>
-          <InputLabel id="waxservice">Wax Services</InputLabel>
-          <Select
-            labelId="waxservice"
-            multiple
-            value={waxService}
-            renderValue={(selected) => selected.join(', ')}
-            onChange={(event) => setWaxService(event.target.value)}
-          >
-            {listValues(wax, waxService)}
-          </Select>
-        </FormControl>
-        <FormControl component="fieldset">
+          />
+          <Typography variant="h6" style={{marginBottom: '-50px'}}>Services</Typography>
+          <FormControl>
+            <InputLabel id="handservice">Hand Services</InputLabel>
+            <Select
+              labelId="handservice"
+              name="handService"
+              multiple
+              value={formik.values.handService}
+              renderValue={(selected) => selected.join(', ')}
+              onChange={formik.handleChange}
+              >
+              {listValues(hands, formik.values.handService)}
+            </Select>
+          </FormControl>
+          <FormControl>
+            <InputLabel id="footservice">Foot Services</InputLabel>
+            <Select
+              labelId="footservice"
+              name="footService"
+              multiple
+              value={formik.values.footService}
+              renderValue={(selected) => selected.join(', ')}
+              onChange={formik.handleChange}
+            >
+              {listValues(foot, formik.values.footService)}
+            </Select>
+          </FormControl>
+          <FormControl>
+            <InputLabel id="waxservice">Wax Services</InputLabel>
+            <Select
+              labelId="waxservice"
+              name="waxService"
+              multiple
+              value={formik.values.waxService}
+              renderValue={(selected) => selected.join(', ')}
+              onChange={formik.handleChange}
+            >
+              {listValues(wax, formik.values.waxService)}
+            </Select>
+          </FormControl>
           <RadioGroup
             classes={{root: classes.radio}}
             aria-label="type" 
-            name="type" 
-            value={radio} 
-            onChange={(event) => setRadio(event.target.value)}>
+            name="appointmentType" 
+            value={formik.values.appointmentType} 
+            onChange={formik.handleChange}>
             <FormControlLabel value="appointment" control={<Radio />} label="Appointment" />
             <FormControlLabel value="walk-in" control={<Radio />} label="Walk-in" />
           </RadioGroup>
-        </FormControl>
-        <Button 
-          className={classes.primary} 
-          variant="contained"
-          onClick={handleCheckInButton}
-          >
-          {isCheckingIn ? <CircularProgress size={24} /> : 'Check in!'}
-        </Button>
+          <Button 
+            className={classes.primary} 
+            variant="contained"
+            type="submit"
+            >
+            {isCheckingIn ? <CircularProgress size={24} /> : 'Check in!'}
+          </Button>
+        </form>
       </CardContent>
     </Card>
   )
