@@ -8,7 +8,6 @@ const useStyles = makeStyles({
   primary: {
     backgroundColor: '#fc5c9c',
     color: '#fcefee',
-    width: '100%',
   },
 })
 

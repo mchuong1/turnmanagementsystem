@@ -25,8 +25,8 @@ const useStyles = makeStyles({
     color: '#fcefee',
     width: '100%',
     textAlign: 'center',
-    position: 'absolute',
-    padding: '10px 0px'
+    padding: '10px 0px',
+    bottom: 0,
   }
 })
 

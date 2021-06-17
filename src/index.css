@@ -1,3 +1,7 @@
+html{
+  height: max-content;
+}
+
 #root{
   height: 100%;
   margin: 0;
