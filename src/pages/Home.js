@@ -42,7 +42,7 @@ const useStyles = makeStyles({
   radio: {
     display: 'flex'
   }
-})
+});
 
 const validationSchema = yup.object({
   name: yup
@@ -50,13 +50,12 @@ const validationSchema = yup.object({
     .required('Name is required.'),
   phoneNumber: yup
     .string('Enter your Phone Number.')
-    .min(9, 'Phone Number should be 9 numbers long.')
     .required('Phone Number is required.'),
   appointmentType: yup
     .string()
     .oneOf(["appointment", "walk-in"])
-    .required('Appointment Type is required.'),
-})
+    .required('Please select one.'),
+});
 
 function Home(props) {
   const classes = useStyles()
@@ -84,11 +83,11 @@ function Home(props) {
     'Service 4'
   ]
 
-  const handleCheckInButton = async () => {
+  const handleCheckInButton = async (values) => {
+    const { name, phoneNumber } = values
     setCheckingIn(true)
-
     try {
-      // await saveClient({name, phoneNumber});
+      await saveClient({name, phoneNumber});
       history.push('/confirm');
       setCheckingIn(false);
     }
@@ -107,8 +106,8 @@ function Home(props) {
       waxService: [],
       appointmentType: ''
     },
-    // validationSchema: validationSchema,
-    onSubmit: handleCheckInButton,
+    validationSchema: validationSchema,
+    onSubmit: (values) => handleCheckInButton(values),
   });
 
   const listValues = (data, type) => data.map((service) => (
@@ -189,9 +188,15 @@ function Home(props) {
             aria-label="type" 
             name="appointmentType" 
             value={formik.values.appointmentType} 
-            onChange={formik.handleChange}>
+            onChange={formik.handleChange}
+          >
             <FormControlLabel value="appointment" control={<Radio />} label="Appointment" />
             <FormControlLabel value="walk-in" control={<Radio />} label="Walk-in" />
+            <InputLabel
+              error={formik.touched.appointmentType && Boolean(formik.errors.appointmentType)}
+            >
+              {formik.touched.appointmentType && formik.errors.appointmentType}
+            </InputLabel>
           </RadioGroup>
           <Button 
             className={classes.primary} 
