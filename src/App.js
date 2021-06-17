@@ -5,7 +5,7 @@ import { BrowserRouter as Switch, Route } from 'react-router-dom';
 
 import Header from './components/Header'
 import Confirmation from './pages/Check-in/Confirmation';
-import Home from './pages/Check-in/Home'
+import Checkin from './pages/Check-in/Checkin'
 import PrivateRoute from './components/PrivateRoute';
 import Profile from './components/Profile';
 import Login from './components/Login';
@@ -38,7 +38,7 @@ function App() {
       <Header />
       <div className={classes.body}>
         <Switch>
-          <Route exact path='/' component={Home} />
+          <Route exact path='/' component={Checkin} />
           <Route path='/confirm' component={Confirmation} />
           <Route path='/login' component={Login} />
           <PrivateRoute path='/private' component={Profile}/>

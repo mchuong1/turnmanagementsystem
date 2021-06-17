@@ -57,7 +57,7 @@ const validationSchema = yup.object({
     .required('Please select one.'),
 });
 
-function Home(props) {
+function Checkin(props) {
   const classes = useStyles()
   const { history } = props;
 
@@ -211,4 +211,4 @@ function Home(props) {
   )
 }
 
-export default withRouter(Home)
+export default withRouter(Checkin)
