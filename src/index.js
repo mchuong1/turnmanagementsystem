@@ -12,7 +12,7 @@ ReactDOM.render(
   <Auth0Provider
     domain="mc-manage.us.auth0.com"
     clientId={process.env.REACT_APP_AUTH0_CLIENTID}
-    redirectUri={window.location.origin}
+    redirectUri={`${window.location.origin}/private`}
   >
     <BrowserRouter>
       <App />
