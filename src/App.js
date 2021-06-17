@@ -1,11 +1,14 @@
 import './App.css';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { BrowserRouter as Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Switch, Route } from 'react-router-dom';
 
 import Header from './components/Header'
 import Confirmation from './pages/Confirmation';
 import Home from './pages/Home'
+import PrivateRoute from './components/PrivateRoute';
+import Profile from './components/Profile';
+import Login from './components/Login';
 
 const useStyles = makeStyles({
   root: {
@@ -37,6 +40,8 @@ function App() {
         <Switch>
           <Route exact path='/' component={Home} />
           <Route path='/confirm' component={Confirmation} />
+          <Route path='/login' component={Login} />
+          <PrivateRoute path='/private' component={Profile}/>
         </Switch>
       </div>
       <div className={classes.footer}>

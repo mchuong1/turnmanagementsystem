@@ -4,13 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom'
+import { Auth0Provider } from '@auth0/auth0-react';
 
 
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Auth0Provider
+    domain="mc-manage.us.auth0.com"
+    clientId={process.env.REACT_APP_AUTH0_CLIENTID}
+    redirectUri={`${window.location.origin}/private`}
+  >
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Auth0Provider>,
   document.getElementById('root')
 );
 
