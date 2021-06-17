@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { BrowserRouter as Switch, Route } from 'react-router-dom';
 
 import Header from './components/Header'
-import Confirmation from './pages/Confirmation';
-import Home from './pages/Home'
+import Confirmation from './pages/Check-in/Confirmation';
+import Home from './pages/Check-in/Home'
 import PrivateRoute from './components/PrivateRoute';
 import Profile from './components/Profile';
 import Login from './components/Login';
