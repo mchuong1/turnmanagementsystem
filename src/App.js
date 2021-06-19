@@ -1,15 +1,12 @@
 import './App.css';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { BrowserRouter as Switch, Route } from 'react-router-dom';
-import { useAuth0 } from "@auth0/auth0-react";
+import { BrowserRouter as Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import Header from './components/Header'
 import Confirmation from './pages/Check-in/Confirmation';
 import Checkin from './pages/Check-in/Checkin'
-import PrivateRoute from './components/PrivateRoute';
-import Login from './components/Login';
-import Admin from './pages/Admin/Admin';
+
 
 const useStyles = makeStyles({
   root: {
@@ -38,29 +35,19 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
 
-  const { isAuthenticated } = useAuth0();
+  let { path } = useRouteMatch();
 
   return (
     <>
-      {!isAuthenticated && (
-        <>
-          <Header />
-          <div className={classes.body}>
-            <Switch>
-              <Route exact path='/' component={Checkin} />
-              <Route path='/confirm' component={Confirmation} />
-              <Route path='/login' component={Login} />
-            </Switch>
-          </div>
-          <div className={classes.footer}>
-              <span>Copyright © 2021, Polish Nail, Inc. "Polish Nail" and logo are registered trademarks of Polish Nail, Inc</span>
-          </div>
-        </>
-      )}
-      <div className={classes.adminBody}>
+      <Header />
+      <div className={classes.body}>
         <Switch>
-          <PrivateRoute path='/private' component={Admin}/>
+          <Route exact path={path} component={Checkin} />
+          <Route path={`${path}/confirm`} component={Confirmation} />
         </Switch>
+      </div>
+      <div className={classes.footer}>
+          <span>Copyright © 2021, Polish Nail, Inc. "Polish Nail" and logo are registered trademarks of Polish Nail, Inc</span>
       </div>
     </>
   );

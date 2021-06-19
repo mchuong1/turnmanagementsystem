@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useRouteMatch } from 'react-router-dom';
 
 import { saveClient } from  '../../service/clientService';
 
@@ -60,6 +60,7 @@ const validationSchema = yup.object({
 function Checkin(props) {
   const classes = useStyles()
   const { history } = props;
+  const { path, url } = useRouteMatch();
 
   const [isCheckingIn, setCheckingIn] = useState(false);
 
@@ -88,7 +89,7 @@ function Checkin(props) {
     setCheckingIn(true)
     try {
       await saveClient({name, phoneNumber});
-      history.push('/confirm');
+      history.push(`${url}/confirm`);
       setCheckingIn(false);
     }
     catch (e) {
