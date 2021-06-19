@@ -8,7 +8,6 @@ import Header from './components/Header'
 import Confirmation from './pages/Check-in/Confirmation';
 import Checkin from './pages/Check-in/Checkin'
 import PrivateRoute from './components/PrivateRoute';
-import Profile from './components/Profile';
 import Login from './components/Login';
 import Admin from './pages/Admin/Admin';
 
@@ -32,14 +31,14 @@ const useStyles = makeStyles({
   },
   adminBody: {
     height: '100%',
-    backgroundColor: '#e2f3f5'
+    backgroundColor: '#FDFDFD'
   }
 })
 
 function App() {
   const classes = useStyles();
 
-  const { isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated } = useAuth0();
 
   return (
     <>

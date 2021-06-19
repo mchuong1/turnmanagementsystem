@@ -1,8 +1,8 @@
 import React from 'react'
-import { Box, makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 
 import Navbar from '../../components/Navbar'
-import Customers from './Customers'
+import Customers from './Customers/Customers'
 
 const useStyles = makeStyles({
   body: {
