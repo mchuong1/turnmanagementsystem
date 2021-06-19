@@ -64,14 +64,14 @@ export default function Navbar() {
           edge="start"
           onClick={toggleDrawer}
         >
-          <MenuIcon color="primary" />
+          <MenuIcon style={{color: 'white'}} />
         </IconButton>
       </Toolbar>
       <Divider />
       <List>
         <ListItem button classes={{gutters: classes.gutters}} onClick={() => console.log('works')}>
           <ListItemIcon>
-            <PeopleIcon color="primary"/>
+            <PeopleIcon style={{color: 'white'}} />
           </ListItemIcon>
           <ListItemText primary="Customers"/>
         </ListItem>

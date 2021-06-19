@@ -10,7 +10,7 @@ import Checkin from './pages/Check-in/Checkin'
 import PrivateRoute from './components/PrivateRoute';
 import Profile from './components/Profile';
 import Login from './components/Login';
-import Dashboard from './pages/Admin/Dashboard';
+import Admin from './pages/Admin/Admin';
 
 const useStyles = makeStyles({
   root: {
@@ -31,7 +31,6 @@ const useStyles = makeStyles({
     bottom: 0,
   },
   adminBody: {
-    display: 'grid',
     height: '100%',
     backgroundColor: '#e2f3f5'
   }
@@ -61,7 +60,7 @@ function App() {
       )}
       <div className={classes.adminBody}>
         <Switch>
-          <PrivateRoute path='/private' component={Dashboard}/>
+          <PrivateRoute path='/private' component={Admin}/>
         </Switch>
       </div>
     </>
