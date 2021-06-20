@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { 
   makeStyles, Table, TableContainer,
   Paper, TableHead, TableRow, TableCell, TableBody,
   Typography,
   Divider
 } from '@material-ui/core'
+import { getClient } from '../../../service/clientService';
+import _ from 'lodash'
+
 
 const useStyles = makeStyles({
   paper: {
@@ -12,7 +15,7 @@ const useStyles = makeStyles({
   },
   table: {
     minWidth: 650,
-    width: '100%'
+    width: '100%',
   },
   title: {
     padding: '10px 20px',
@@ -21,6 +24,9 @@ const useStyles = makeStyles({
     "&:hover": {
       cursor: 'pointer'
     }
+  },
+  tableHead: {
+    fontWeight: 'bold'
   }
 })
 
@@ -28,15 +34,25 @@ function createData(name, phoneNumber) {
   return { name, phoneNumber }
 }
 
-const rows = [
-  createData( 'Joen Doe', '67833227801'),
-  createData( 'Max Dive', '1234567890'),
+// const rows = [
+//   createData( 'Joen Doe', '67833227801'),
+//   createData( 'Max Dive', '1234567890'),
 
-]
+// ]
 
 
 export default function CustomersTable(){
   const classes = useStyles();
+  const [rows, setRows] = useState([]);
+
+  const fetchClient = async () => {
+    const data = await getClient();
+    setRows(data.data);
+  };
+
+  useEffect(() => {
+    fetchClient();
+  }, [])
 
 
   return(
@@ -49,15 +65,15 @@ export default function CustomersTable(){
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Number</TableCell>
+              <TableCell classes={{root: classes.tableHead}}>Name</TableCell>
+              <TableCell classes={{root: classes.tableHead}}>Number</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {_.map(rows, row => (
               <TableRow 
                 hover 
-                key={row.name}
+                key={row.id}
                 classes={{ root: classes.tableRow }}
               >
                 <TableCell >{row.name}</TableCell>

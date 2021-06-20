@@ -23,7 +23,7 @@ module.exports.handler = async (event, context) => {
   return {
     headers: {
       'Content-Type': 'text/csv',
-      'Content-disposition': 'attachment; filename=testing.csv'
+      'Content-disposition': 'attachment; filename=customers.csv'
     },
     body: csv,
     statusCode: 200

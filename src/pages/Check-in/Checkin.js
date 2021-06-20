@@ -60,7 +60,7 @@ const validationSchema = yup.object({
 function Checkin(props) {
   const classes = useStyles()
   const { history } = props;
-  const { path, url } = useRouteMatch();
+  const { url } = useRouteMatch();
 
   const [isCheckingIn, setCheckingIn] = useState(false);
 
