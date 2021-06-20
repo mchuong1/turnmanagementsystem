@@ -30,17 +30,6 @@ const useStyles = makeStyles({
   }
 })
 
-function createData(name, phoneNumber) {
-  return { name, phoneNumber }
-}
-
-// const rows = [
-//   createData( 'Joen Doe', '67833227801'),
-//   createData( 'Max Dive', '1234567890'),
-
-// ]
-
-
 export default function CustomersTable(){
   const classes = useStyles();
   const [rows, setRows] = useState([]);
