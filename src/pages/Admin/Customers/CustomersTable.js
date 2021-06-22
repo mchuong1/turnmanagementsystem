@@ -56,6 +56,7 @@ export default function CustomersTable(){
             <TableRow>
               <TableCell classes={{root: classes.tableHead}}>Name</TableCell>
               <TableCell classes={{root: classes.tableHead}}>Number</TableCell>
+              <TableCell classes={{root: classes.tableHead}}>Appointment Type</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -65,8 +66,9 @@ export default function CustomersTable(){
                 key={row.id}
                 classes={{ root: classes.tableRow }}
               >
-                <TableCell >{row.name}</TableCell>
-                <TableCell>{row.phoneNumber}</TableCell>
+                <TableCell >{_.get(row, 'name')}</TableCell>
+                <TableCell>{_.get(row, 'phoneNumber')}</TableCell>
+                <TableCell>{_.get(row, 'appointmentType')}</TableCell>
               </TableRow>
             ))}
           </TableBody>
