@@ -6,10 +6,14 @@ import {
   ListItemText, IconButton
 } from '@material-ui/core';
 import MuiDrawer from '@material-ui/core/Drawer';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import PeopleIcon from '@material-ui/icons/People';
 import MenuIcon from '@material-ui/icons/Menu';
+import WorkIcon from '@material-ui/icons/Work';
 import { useAuth0 } from '@auth0/auth0-react';
 import { ExitToApp, Person } from '@material-ui/icons';
+import { withRouter, useRouteMatch } from 'react-router-dom';
+
 
 const useStyles = makeStyles({
   root: {
@@ -60,14 +64,17 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function Navbar() {
+function Navbar(props) {
   const classes = useStyles();
+  const { history } = props;
+  const { url } = useRouteMatch();
+  const { logout } = useAuth0();
+  
   const [open, setOpen] = React.useState(true);
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
-
-  const { logout } = useAuth0();
 
   return(
     <Drawer variant="permanent" open={open} classes={{root: classes.root, paper: classes.list}}>
@@ -81,11 +88,23 @@ export default function Navbar() {
       </Toolbar>
       <Divider classes={{root: classes.divider}}/>
       <List>
-        <ListItem button classes={{gutters: classes.gutters}} onClick={() => console.log('works')}>
+      <ListItem button classes={{gutters: classes.gutters}} onClick={() => window.location.href =`/dashboard/checkedin`}>
+          <ListItemIcon>
+            <AssignmentIcon style={{color: 'white'}} />
+          </ListItemIcon>
+          <ListItemText primary="Check-ins"/>
+        </ListItem>
+        <ListItem button classes={{gutters: classes.gutters}} onClick={() => window.location.href =`/dashboard/customers`}>
           <ListItemIcon>
             <PeopleIcon style={{color: 'white'}} />
           </ListItemIcon>
           <ListItemText primary="Customers"/>
+        </ListItem>
+        <ListItem button classes={{gutters: classes.gutters}} onClick={() => window.location.href =`/dashboard/employees`}>
+          <ListItemIcon>
+            <WorkIcon style={{color: 'white'}} />
+          </ListItemIcon>
+          <ListItemText primary="Employees"/>
         </ListItem>
       </List>
       <List classes={{root: classes.settingsList}}>
@@ -105,3 +124,5 @@ export default function Navbar() {
     </Drawer>
   )
 }
+
+export default withRouter(Navbar)

@@ -1,8 +1,11 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core'
+import { BrowserRouter as Switch, Redirect, Route, useRouteMatch } from 'react-router-dom';
 
 import Navbar from '../../components/Navbar'
+import Checkedin from './Checkedin/Checkedin'
 import Customers from './Customers/Customers'
+import Employees from './Employees/Employees'
 
 const useStyles = makeStyles({
   body: {
@@ -14,11 +17,18 @@ const useStyles = makeStyles({
 export default function Admin() {
   const classes = useStyles()
 
+  let { path } = useRouteMatch();
+
   return(
     <>
       <div className={classes.body}>
-        <Navbar />
-        <Customers />
+        <Switch>
+          <Navbar />
+          <Route exact path='/'><Redirect to={`${path}/checkedin`}/></Route>
+          <Route path={`${path}/checkedin`} component={Checkedin}/>
+          <Route path={`${path}/customers`} component={Customers} />
+          <Route path={`${path}/employees`} component={Employees} />
+        </Switch>
       </div>
     </>
   )
