@@ -9,7 +9,7 @@ import MuiDrawer from '@material-ui/core/Drawer';
 import PeopleIcon from '@material-ui/icons/People';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Person } from '@material-ui/icons';
+import { ExitToApp, Person } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   root: {
@@ -27,7 +27,8 @@ const useStyles = makeStyles({
   },
   settingsList: {
     position: 'absolute',
-    bottom: 0
+    bottom: 0,
+    width: '100%'
   }
 });
 
@@ -66,7 +67,7 @@ export default function Navbar() {
     setOpen(!open);
   };
 
-  const { user } = useAuth0();
+  const { logout } = useAuth0();
 
   return(
     <Drawer variant="permanent" open={open} classes={{root: classes.root, paper: classes.list}}>
@@ -93,6 +94,12 @@ export default function Navbar() {
             <Person style={{color: 'white'}}/>
           </ListItemIcon>
           <ListItemText primary="Profile"/>
+        </ListItem>
+        <ListItem button classes={{gutters: classes.gutters}} onClick={() => logout({ returnTo: `${window.location.origin}/login` })}>
+          <ListItemIcon>
+              <ExitToApp style={{color: 'white'}}/>
+          </ListItemIcon>
+          <ListItemText primary="Logout"/>
         </ListItem>
       </List>
     </Drawer>
