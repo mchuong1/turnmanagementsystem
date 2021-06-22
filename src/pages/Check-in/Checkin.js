@@ -85,10 +85,14 @@ function Checkin(props) {
   ]
 
   const handleCheckInButton = async (values) => {
-    const { name, phoneNumber } = values
+    const { 
+      name, phoneNumber, appointmentType,
+      handService, footService, waxService
+    } = values
+    const services = [...handService, ...footService, ...waxService]
     setCheckingIn(true)
     try {
-      await saveClient({name, phoneNumber});
+      await saveClient({name, phoneNumber, appointmentType, services});
       history.push(`${url}/confirm`);
       setCheckingIn(false);
     }

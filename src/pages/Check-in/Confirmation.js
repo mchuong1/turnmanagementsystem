@@ -36,7 +36,7 @@ export default function Confirmation(props) {
         <Button
           className={classes.primary}
           variant="contained"
-          onClick={() => history.push('/')}
+          onClick={() => history.push('/checkin')}
         >
           Start Over
         </Button>

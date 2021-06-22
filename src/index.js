@@ -14,14 +14,14 @@ ReactDOM.render(
   <Auth0Provider
     domain="mc-manage.us.auth0.com"
     clientId={process.env.REACT_APP_AUTH0_CLIENTID}
-    redirectUri={`${window.location.origin}/private`}
+    redirectUri={`${window.location.origin}/dashboard`}
   >
     <BrowserRouter>
       <Switch>
         <Route exact path="/"><Redirect to="/login" /></Route>
         <Route path="/checkin" component={App} />
         <Route path="/login" component={Login} />
-        <PrivateRoute path="/private" component={Admin} />
+        <PrivateRoute path="/dashboard" component={Admin} />
       </Switch>
     </BrowserRouter>
   </Auth0Provider>,
