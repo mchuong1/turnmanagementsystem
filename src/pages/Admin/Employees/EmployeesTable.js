@@ -5,7 +5,6 @@ import {
   Typography,
   Divider
 } from '@material-ui/core'
-import { useAuth0 } from "@auth0/auth0-react";
 import _ from 'lodash'
 import { getEmployees } from '../../../service/authService';
 

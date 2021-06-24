@@ -12,7 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import WorkIcon from '@material-ui/icons/Work';
 import { useAuth0 } from '@auth0/auth0-react';
 import { ExitToApp, Person } from '@material-ui/icons';
-import { withRouter, useRouteMatch } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 
 const useStyles = makeStyles({
@@ -67,7 +67,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 function Navbar(props) {
   const classes = useStyles();
   const { history } = props;
-  const { url } = useRouteMatch();
   const { logout } = useAuth0();
   
   const [open, setOpen] = React.useState(true);
