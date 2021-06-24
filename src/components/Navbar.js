@@ -88,19 +88,19 @@ function Navbar(props) {
       </Toolbar>
       <Divider classes={{root: classes.divider}}/>
       <List>
-      <ListItem button classes={{gutters: classes.gutters}} onClick={() => window.location.href =`/dashboard/checkedin`}>
+      <ListItem button classes={{gutters: classes.gutters}} onClick={() => history.push(`/dashboard/checkedin`)}>
           <ListItemIcon>
             <AssignmentIcon style={{color: 'white'}} />
           </ListItemIcon>
           <ListItemText primary="Check-ins"/>
         </ListItem>
-        <ListItem button classes={{gutters: classes.gutters}} onClick={() => window.location.href =`/dashboard/customers`}>
+        <ListItem button classes={{gutters: classes.gutters}} onClick={() => history.push(`/dashboard/customers`)}>
           <ListItemIcon>
             <PeopleIcon style={{color: 'white'}} />
           </ListItemIcon>
           <ListItemText primary="Customers"/>
         </ListItem>
-        <ListItem button classes={{gutters: classes.gutters}} onClick={() => window.location.href =`/dashboard/employees`}>
+        <ListItem button classes={{gutters: classes.gutters}} onClick={() => history.push(`/dashboard/employees`)}>
           <ListItemIcon>
             <WorkIcon style={{color: 'white'}} />
           </ListItemIcon>
