@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   }
 })
 
-export default function Admin() {
+export default function Admin(props) {
   const classes = useStyles()
 
   let { path } = useRouteMatch();
@@ -24,10 +24,10 @@ export default function Admin() {
       <div className={classes.body}>
         <Switch>
           <Navbar />
-          <Route exact path='/'><Redirect to={`${path}/checkedin`}/></Route>
+          <Route exact path={path}><Redirect to={`${path}/checkedin`}/></Route>
           <Route path={`${path}/checkedin`} component={Checkedin}/>
           <Route path={`${path}/customers`} component={Customers} />
-          <Route path={`${path}/employees`} component={Employees} />
+          <Route path={`${path}/employees`} render={() => <Employees {...props} />} />
         </Switch>
       </div>
     </>

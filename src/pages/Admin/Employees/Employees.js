@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import PageSubHeader from '../../../components/PageSubHeader';
+import EmployeesTable from './EmployeesTable';
 
 const useStyles = makeStyles({
   root: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles({
   }
 })
 
-export default function Employees() {
+export default function Employees(props) {
 
   const classes = useStyles();
 
@@ -36,7 +37,7 @@ export default function Employees() {
       <div className={classes.body}>
         <div className={classes.buttonBar}>
         </div>
-
+        <EmployeesTable {...props}/>
       </div>
     </div>
   )
