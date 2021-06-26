@@ -6,7 +6,7 @@ import {
   Divider
 } from '@material-ui/core'
 import _ from 'lodash'
-import { getAccessToken, getEmployees } from '../../../service/authService';
+import { getEmployees } from '../../../service/authService';
 
 
 const useStyles = makeStyles({
@@ -35,8 +35,7 @@ export default function EmployeesTable(props){
   const [rows, setRows] = useState([]);
 
   const fetchEmployees = async () => {
-    const {data: token} = await getAccessToken();
-    const {data} = await getEmployees(token);
+    const {data} = await getEmployees();
     setRows(data)
   };
 
