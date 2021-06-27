@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
 import PageSubHeader from '../../../components/PageSubHeader';
+import DroppableColumn from '../../../components/DroppableColumn';
 
 const useStyles = makeStyles({
   root: {
@@ -13,6 +14,7 @@ const useStyles = makeStyles({
     height: '87%',
     padding: '20px',
     overflowY: 'auto',
+    display: 'flex',
   },
   buttonBar: {
     display: 'flex',
@@ -58,53 +60,87 @@ const cards = [
     name: 'Het'
   }
 ]
+const tech = [
+  {
+    id: '4',
+    name: 'Tech 1'
+  },
+  {
+    id: '5',
+    name: 'Tech 2'
+  },
+  {
+    id: '6',
+    name: 'Tech 3'
+  }
+]
 
 export default function Checkedin() {
 
   const classes = useStyles();
 
-  const [items, setItems] = useState(cards)
+  const [columns, setColumns] = useState({
+    column1: cards,
+    column2: tech
+  });
 
-  const handleDragEnd = (result) => {
-    if (!result.destination) return;
+  // a little function to help us with reordering the result
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
 
-    const tempItems = Array.from(items)
-    const [reorderedItem] = tempItems.splice(result.source.index, 1)
-    tempItems.splice(result.destination.index, 0, reorderedItem)
+    return result;
+  };
 
-    setItems(tempItems)
+  /**
+   * Moves an item from one list to another list.
+   */
+  const move = (source, destination, droppableSource, droppableDestination) => {
+    const sourceClone = Array.from(source);
+    const destClone = Array.from(destination);
+    const [removed] = sourceClone.splice(droppableSource.index, 1);
+
+    destClone.splice(droppableDestination.index, 0, removed);
+
+    const result = {};
+    result[droppableSource.droppableId] = sourceClone;
+    result[droppableDestination.droppableId] = destClone;
+
+    return result;
+  };
+
+  const onDragEnd = result => {
+    const { source, destination } = result;
+      
+    if(!destination) return;
+  
+    if(source.droppableId === destination.droppableId) {
+      const items = reorder(
+        columns[source.droppableId],
+        source.index,
+        destination.index
+      );
+      
+      return setColumns({...columns, [source.droppableId] : items})
+    }
+    
+    const moved = move(
+      columns[source.droppableId],
+      columns[destination.droppableId],
+      source,
+      destination
+    )
+    return setColumns(moved)
   }
 
   return(
     <div className={classes.root}>
       <PageSubHeader title="Checked in" classes={{root: classes.header, title: classes.title}}/>
       <div className={classes.body}>
-        <DragDropContext onDragEnd={handleDragEnd}>
-          <Droppable droppableId="listId">
-            {(provided) =>
-              <ul className={classes.list} {...provided.droppableProps} ref={provided.innerRef}>
-                {items.map(({id, name}, index) => {
-                  return (
-                    <Draggable key={id} draggableId={id} index={index}>
-                      {(provided) => 
-                        <li
-                          className={classes.listItem}
-                          ref={provided.innerRef}
-                          {...provided.draggableProps} 
-                          {...provided.dragHandleProps}
-                          >
-                          <p>
-                            {name}
-                          </p>
-                        </li>
-                      }
-                    </Draggable>
-                  )
-                })}
-                {provided.placeholder}
-              </ul>
-            }
-          </Droppable>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <DroppableColumn id="column1" items={columns['column1']}/>
+          <DroppableColumn id="column2" items={columns['column2']}/>
         </DragDropContext>
 
       </div>
