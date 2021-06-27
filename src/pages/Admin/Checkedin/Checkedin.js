@@ -15,6 +15,7 @@ const useStyles = makeStyles({
     padding: '20px',
     overflowY: 'auto',
     display: 'flex',
+    justifyContent: 'space-evenly'
   },
   buttonBar: {
     display: 'flex',
@@ -49,15 +50,15 @@ const useStyles = makeStyles({
 const cards = [
   {
     id: '1',
-    name: 'Matthew'
+    name: 'Client 1'
   },
   {
     id: '2',
-    name: 'Phuong'
+    name: 'Client 2'
   },
   {
     id: '3',
-    name: 'Het'
+    name: 'Client 3'
   }
 ]
 const tech = [
