@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
-import { Paper } from '@material-ui/core';
+import { Paper, Divider, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {
@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 export default function DroppableColumn(props){
 
   const classes = useStyles();
-  const { id, items } = props;
+  const { id, items, title } = props;
 
   const getListStyle = isDraggingOver => ({
     background: isDraggingOver ? '#e2f3f5' : 'white',
@@ -49,6 +49,8 @@ export default function DroppableColumn(props){
         ref={provided.innerRef}
         style={getListStyle(snapshot.isDraggingOver)}
       >
+        <Typography variant='h6'>{title}</Typography>
+        <Divider style={{marginBottom: '1em'}}/>
         {items.map(({id, name}, index) => {
           return (
             <Draggable key={id} draggableId={id} index={index}>

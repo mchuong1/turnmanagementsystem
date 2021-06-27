@@ -62,18 +62,18 @@ const cards = [
   }
 ]
 const tech = [
-  {
-    id: '4',
-    name: 'Tech 1'
-  },
-  {
-    id: '5',
-    name: 'Tech 2'
-  },
-  {
-    id: '6',
-    name: 'Tech 3'
-  }
+  // {
+  //   id: '4',
+  //   name: 'Tech 1'
+  // },
+  // {
+  //   id: '5',
+  //   name: 'Tech 2'
+  // },
+  // {
+  //   id: '6',
+  //   name: 'Tech 3'
+  // }
 ]
 
 export default function Checkedin() {
@@ -140,8 +140,8 @@ export default function Checkedin() {
       <PageSubHeader title="Checked in" classes={{root: classes.header, title: classes.title}}/>
       <div className={classes.body}>
         <DragDropContext onDragEnd={onDragEnd}>
-          <DroppableColumn id="column1" items={columns['column1']}/>
-          <DroppableColumn id="column2" items={columns['column2']}/>
+          <DroppableColumn id="column1" items={columns['column1']} title="Checked in Clients"/>
+          <DroppableColumn id="column2" items={columns['column2']} title="Tech 1"/>
         </DragDropContext>
 
       </div>
