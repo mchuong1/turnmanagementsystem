@@ -6,6 +6,7 @@ import Navbar from '../../components/Navbar'
 import Checkedin from './Checkedin/Checkedin'
 import Customers from './Customers/Customers'
 import Employees from './Employees/Employees'
+import Profile from './Profile/Profile'
 
 const useStyles = makeStyles({
   body: {
@@ -28,6 +29,7 @@ export default function Admin(props) {
           <Route path={`${path}/checkedin`} component={Checkedin}/>
           <Route path={`${path}/customers`} component={Customers} />
           <Route path={`${path}/employees`} render={() => <Employees {...props} />} />
+          <Route path={`${path}/profile`} component={Profile} />
         </Switch>
       </div>
     </>

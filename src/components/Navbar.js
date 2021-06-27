@@ -107,7 +107,7 @@ function Navbar(props) {
         </ListItem>
       </List>
       <List classes={{root: classes.settingsList}}>
-        <ListItem button classes={{gutters: classes.gutters}} onClick={() => console.log('works')}>
+        <ListItem button classes={{gutters: classes.gutters}} onClick={() => history.push(`/dashboard/profile`)}>
           <ListItemIcon>
             <Person style={{color: 'white'}}/>
           </ListItemIcon>
