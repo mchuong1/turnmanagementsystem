@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import moment from 'moment'
 import { 
   makeStyles, Table, TableContainer,
   Paper, TableHead, TableRow, TableCell, TableBody,
@@ -43,8 +44,8 @@ export default function CustomersTable(){
 
   const fetchClient = async () => {
     setLoading(true)
-    const data = await getClient();
-    setRows(data.data);
+    const {data} = await getClient();
+    setRows(data);
     setLoading(false)
   };
 
@@ -80,7 +81,7 @@ export default function CustomersTable(){
                 <TableCell >{_.get(row, 'name')}</TableCell>
                 <TableCell>{_.get(row, 'phone_number')}</TableCell>
                 <TableCell>{_.get(row, 'appointment_type')}</TableCell>
-                <TableCell>{_.get(row, 'created_at')}</TableCell>
+                <TableCell>{moment(_.get(row, 'created_at')).format('MM/DD/YYYY hh:mm:ss A')}</TableCell>
               </TableRow>
             ))}
           </TableBody>
