@@ -11,7 +11,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import MenuIcon from '@material-ui/icons/Menu';
 import WorkIcon from '@material-ui/icons/Work';
 import { useAuth0 } from '@auth0/auth0-react';
-import { ArrowLeft, ChevronLeft, ExitToApp, Person } from '@material-ui/icons';
+import { ChevronLeft, ExitToApp, Person } from '@material-ui/icons';
 import { withRouter } from 'react-router-dom';
 
 

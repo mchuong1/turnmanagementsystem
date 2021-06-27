@@ -67,6 +67,7 @@ export default function CustomersTable(){
               <TableCell classes={{root: classes.tableHead}}>Name</TableCell>
               <TableCell classes={{root: classes.tableHead}}>Number</TableCell>
               <TableCell classes={{root: classes.tableHead}}>Appointment Type</TableCell>
+              <TableCell classes={{root: classes.tableHead}}>Check-in Time</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -77,8 +78,9 @@ export default function CustomersTable(){
                 classes={{ root: classes.tableRow }}
               >
                 <TableCell >{_.get(row, 'name')}</TableCell>
-                <TableCell>{_.get(row, 'phoneNumber')}</TableCell>
-                <TableCell>{_.get(row, 'appointmentType')}</TableCell>
+                <TableCell>{_.get(row, 'phone_number')}</TableCell>
+                <TableCell>{_.get(row, 'appointment_type')}</TableCell>
+                <TableCell>{_.get(row, 'created_at')}</TableCell>
               </TableRow>
             ))}
           </TableBody>
