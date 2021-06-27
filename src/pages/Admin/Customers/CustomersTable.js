@@ -3,7 +3,8 @@ import {
   makeStyles, Table, TableContainer,
   Paper, TableHead, TableRow, TableCell, TableBody,
   Typography,
-  Divider
+  Divider,
+  CircularProgress
 } from '@material-ui/core'
 import { getClient } from '../../../service/clientService';
 import _ from 'lodash'
@@ -20,6 +21,11 @@ const useStyles = makeStyles({
   title: {
     padding: '10px 20px',
   },
+  tableContainer: {
+    display: 'grid',
+    placeItems: 'center',
+    minHeight: '100px'
+  },
   tableRow: {
     "&:hover": {
       cursor: 'pointer'
@@ -27,16 +33,19 @@ const useStyles = makeStyles({
   },
   tableHead: {
     fontWeight: 'bold'
-  }
+  },
 })
 
 export default function CustomersTable(){
   const classes = useStyles();
   const [rows, setRows] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   const fetchClient = async () => {
+    setLoading(true)
     const data = await getClient();
     setRows(data.data);
+    setLoading(false)
   };
 
   useEffect(() => {
@@ -50,8 +59,9 @@ export default function CustomersTable(){
         Customers
       </Typography>
       <Divider />
-      <TableContainer>
-        <Table className={classes.table}>
+      <TableContainer classes={{root: classes.tableContainer}}>
+        {isLoading ? <CircularProgress />
+        :<Table className={classes.table}>
           <TableHead>
             <TableRow>
               <TableCell classes={{root: classes.tableHead}}>Name</TableCell>
@@ -73,6 +83,7 @@ export default function CustomersTable(){
             ))}
           </TableBody>
         </Table>
+        }
       </TableContainer>
     </Paper>
   )
