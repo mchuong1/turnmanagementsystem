@@ -1,4 +1,6 @@
 const database = require('../lib/database');
+const _ = require('lodash');
+const moment = require('moment');
 const MONGODB_URI = process.env.MONGODB_URI;
 
 
@@ -16,12 +18,15 @@ const queryDatabase = async (db) => {
 
 const pushToDatabase = async (db, data) => {
   const clientData = {
-    name: data.name,
-    phoneNumber: data.phoneNumber,
+    name: _.get(data, 'name'),
+    phoneNumber: _.get(data, 'phoneNumber'),
+    appointmentType: _.get(data, 'appointmentType'),
+    services: _.get(data, 'services'),
+    createdTimestamp: moment().format()
   };
 
   if (clientData.name && clientData.phoneNumber) {
-    await db.collection("clients").insertMany([data]);
+    await db.collection("clients").insertMany([clientData]);
     return { statusCode: 201 };
   } else {
     return { statusCode: 422 };

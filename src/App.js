@@ -1,14 +1,12 @@
 import './App.css';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { BrowserRouter as Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import Header from './components/Header'
-import Confirmation from './pages/Confirmation';
-import Home from './pages/Home'
-import PrivateRoute from './components/PrivateRoute';
-import Profile from './components/Profile';
-import Login from './components/Login';
+import Confirmation from './pages/Check-in/Confirmation';
+import Checkin from './pages/Check-in/Checkin'
+
 
 const useStyles = makeStyles({
   root: {
@@ -17,8 +15,8 @@ const useStyles = makeStyles({
   body: {
     display: 'grid',
     gridGap: '2em',
-    marginTop: '2em',
-    padding: '0px 20px 20px 20px',
+    padding: '2em 20px',
+    backgroundColor: '#fcefee'
   },
   footer: {
     backgroundColor: '#fc5c9c',
@@ -27,21 +25,25 @@ const useStyles = makeStyles({
     textAlign: 'center',
     padding: '10px 0px',
     bottom: 0,
+  },
+  adminBody: {
+    height: '100%',
+    backgroundColor: '#FDFDFD'
   }
 })
 
 function App() {
   const classes = useStyles();
 
+  let { path } = useRouteMatch();
+
   return (
     <>
       <Header />
       <div className={classes.body}>
         <Switch>
-          <Route exact path='/' component={Home} />
-          <Route path='/confirm' component={Confirmation} />
-          <Route path='/login' component={Login} />
-          <PrivateRoute path='/private' component={Profile}/>
+          <Route exact path={path} component={Checkin} />
+          <Route path={`${path}/confirm`} component={Confirmation} />
         </Switch>
       </div>
       <div className={classes.footer}>

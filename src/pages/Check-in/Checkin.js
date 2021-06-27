@@ -9,9 +9,9 @@ import {
 } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useRouteMatch } from 'react-router-dom';
 
-import { saveClient } from  '../service/clientService';
+import { saveClient } from  '../../service/clientService';
 
 const useStyles = makeStyles({
   root: {
@@ -57,9 +57,10 @@ const validationSchema = yup.object({
     .required('Please select one.'),
 });
 
-function Home(props) {
+function Checkin(props) {
   const classes = useStyles()
   const { history } = props;
+  const { url } = useRouteMatch();
 
   const [isCheckingIn, setCheckingIn] = useState(false);
 
@@ -84,11 +85,15 @@ function Home(props) {
   ]
 
   const handleCheckInButton = async (values) => {
-    const { name, phoneNumber } = values
+    const { 
+      name, phoneNumber, appointmentType,
+      handService, footService, waxService
+    } = values
+    const services = [...handService, ...footService, ...waxService]
     setCheckingIn(true)
     try {
-      await saveClient({name, phoneNumber});
-      history.push('/confirm');
+      await saveClient({name, phoneNumber, appointmentType, services});
+      history.push(`${url}/confirm`);
       setCheckingIn(false);
     }
     catch (e) {
@@ -211,4 +216,4 @@ function Home(props) {
   )
 }
 
-export default withRouter(Home)
+export default withRouter(Checkin)
