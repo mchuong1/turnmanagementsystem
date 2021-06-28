@@ -19,13 +19,13 @@ const queryDatabase = async (db) => {
 const pushToDatabase = async (db, data) => {
   const clientData = {
     name: _.get(data, 'name'),
-    phoneNumber: _.get(data, 'phoneNumber'),
-    appointmentType: _.get(data, 'appointmentType'),
+    phone_number: _.get(data, 'phoneNumber'),
+    appointment_type: _.get(data, 'appointmentType'),
     services: _.get(data, 'services'),
-    createdTimestamp: moment().format()
+    created_at: moment().format()
   };
 
-  if (clientData.name && clientData.phoneNumber) {
+  if (clientData.name && clientData.phone_number) {
     await db.collection("clients").insertMany([clientData]);
     return { statusCode: 201 };
   } else {

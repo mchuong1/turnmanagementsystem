@@ -11,7 +11,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import MenuIcon from '@material-ui/icons/Menu';
 import WorkIcon from '@material-ui/icons/Work';
 import { useAuth0 } from '@auth0/auth0-react';
-import { ExitToApp, Person } from '@material-ui/icons';
+import { ChevronLeft, ExitToApp, Person } from '@material-ui/icons';
 import { withRouter } from 'react-router-dom';
 
 
@@ -69,7 +69,7 @@ function Navbar(props) {
   const { history } = props;
   const { logout } = useAuth0();
   
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -82,7 +82,7 @@ function Navbar(props) {
           edge="start"
           onClick={toggleDrawer}
         >
-          <MenuIcon style={{color: 'white'}} />
+          {open ? <ChevronLeft style={{color: 'white'}}/> : <MenuIcon style={{color: 'white'}} />}
         </IconButton>
       </Toolbar>
       <Divider classes={{root: classes.divider}}/>
