@@ -19,7 +19,6 @@ const useStyles = makeStyles({
     height: 'fit-content',
     '& p': {
       maxWidth: 'none',
-      fontWeight: 'bold',
       margin: 0
     }
   },

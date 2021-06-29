@@ -7,7 +7,8 @@ import { getEmployees } from '../../../service/authService';
 import PageSubHeader from '../../../components/PageSubHeader';
 import ClientDroppableColumn from './ClientDroppableColumn';
 import DroppableColumn from '../../../components/DroppableColumn';
-import _ from 'lodash';
+import _, { indexOf } from 'lodash';
+import { Typography, Paper, Divider, CircularProgress } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {
@@ -38,7 +39,6 @@ const useStyles = makeStyles({
     paddingLeft: 0,
     '& p': {
       maxWidth: 'none',
-      fontWeight: 'bold',
       margin: 0
     }
   },
@@ -50,9 +50,13 @@ const useStyles = makeStyles({
     padding: '.5em .8em .5em .5em',
     marginBottom: '1em',
   },
+  employeeColumn: {
+    padding: '10px'
+  },
   employees: {
     display: 'grid',
-
+    height: '100%',
+    // gridTemplateColumns: 'auto auto'
   }
 })
 
@@ -101,7 +105,6 @@ export default function Checkedin() {
         source.index,
         destination.index
       );
-      
       return setColumns({...columns, [source.droppableId] : items})
     }
     
@@ -125,7 +128,7 @@ export default function Checkedin() {
     setTech(techs);
     setColumns({
       clients: clients,
-      ...techColumnObject
+      ...techColumnObject,
     })
     setLoading(false)
   }
@@ -138,14 +141,20 @@ export default function Checkedin() {
     <div className={classes.root}>
       <PageSubHeader title="Checked in" classes={{root: classes.header, title: classes.title}}/>
       <div className={classes.body}>
+      {isLoading ? <CircularProgress /> : 
         <DragDropContext onDragEnd={onDragEnd}>
           <ClientDroppableColumn id="clients" items={columns['clients']} title="Client Waitlist" />
-          <div className={classes.employees}>
-            {_.map(techs, (tech) => {
-              return <DroppableColumn id={tech.user_id} items={columns[tech.user_id]} title={tech.name}/>
-            })}
-          </div>
+          <Paper classes={{root: classes.employeeColumn}}>
+            <Typography variant='h6' style={{marginBottom: 0}}>Employees</Typography>
+            <Divider style={{marginBottom: '15px'}}/>
+            <div className={classes.employees}>
+              {_.map(techs, (tech) => {
+                return <DroppableColumn id={tech.user_id} items={columns[tech.user_id]} title={`${indexOf(techs, tech) + 1} ${tech.name}`}/>
+              })}
+            </div>
+          </Paper>
         </DragDropContext>
+      }
       </div>
     </div>
   )

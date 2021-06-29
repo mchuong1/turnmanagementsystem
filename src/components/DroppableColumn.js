@@ -18,7 +18,6 @@ const useStyles = makeStyles({
     height: 'fit-content',
     '& p': {
       maxWidth: 'none',
-      fontWeight: 'bold',
       margin: 0
     }
   },
@@ -49,7 +48,7 @@ export default function DroppableColumn(props){
         ref={provided.innerRef}
         style={getListStyle(snapshot.isDraggingOver)}
       >
-        <Typography variant='h6'>{title}</Typography>
+        <Typography variant='h8' style={{fontWeight: 'bold'}}>{title}</Typography>
         <Divider style={{marginBottom: '1em'}}/>
         {_.map(items, ({_id, user_id, name}, index) => {
           return (
