@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { getClient } from '../../../service/clientService';
+import { getEmployees } from '../../../service/authService';
+
 import PageSubHeader from '../../../components/PageSubHeader';
+import ClientDroppableColumn from './ClientDroppableColumn';
 import DroppableColumn from '../../../components/DroppableColumn';
+import _ from 'lodash';
 
 const useStyles = makeStyles({
   root: {
@@ -44,106 +49,20 @@ const useStyles = makeStyles({
     borderRadius: '.2em',
     padding: '.5em .8em .5em .5em',
     marginBottom: '1em',
+  },
+  employees: {
+    display: 'grid',
+
   }
 })
-
-const cards = [
-  {
-    id: '1',
-    name: 'Client 1'
-  },
-  {
-    id: '2',
-    name: 'Client 2'
-  },
-  {
-    id: '3',
-    name: 'Client 3'
-  },
-  {
-    id: '4',
-    name: 'Client 1'
-  },
-  {
-    id: '5',
-    name: 'Client 2'
-  },
-  {
-    id: '6',
-    name: 'Client 3'
-  },
-  {
-    id: '7',
-    name: 'Client 1'
-  },
-  {
-    id: '8',
-    name: 'Client 2'
-  },
-  {
-    id: '9',
-    name: 'Client 3'
-  },
-  {
-    id: '10',
-    name: 'Client 1'
-  },
-  {
-    id: '12',
-    name: 'Client 2'
-  },
-  {
-    id: '13',
-    name: 'Client 3'
-  },
-  {
-    id: '21',
-    name: 'Client 1'
-  },
-  {
-    id: '22',
-    name: 'Client 2'
-  },
-  {
-    id: '23',
-    name: 'Client 3'
-  },
-  {
-    id: '31',
-    name: 'Client 1'
-  },
-  {
-    id: '32',
-    name: 'Client 2'
-  },
-  {
-    id: '33',
-    name: 'Client 3'
-  },
-]
-const tech = [
-  // {
-  //   id: '4',
-  //   name: 'Tech 1'
-  // },
-  // {
-  //   id: '5',
-  //   name: 'Tech 2'
-  // },
-  // {
-  //   id: '6',
-  //   name: 'Tech 3'
-  // }
-]
 
 export default function Checkedin() {
 
   const classes = useStyles();
 
-  const [columns, setColumns] = useState({
-    column1: cards,
-    column2: tech
-  });
+  const [columns, setColumns] = useState({});
+  const [isLoading, setLoading] = useState(false);
+  const [techs, setTech] = useState();
 
   // a little function to help us with reordering the result
   const reorder = (list, startIndex, endIndex) => {
@@ -192,18 +111,41 @@ export default function Checkedin() {
       source,
       destination
     )
-    return setColumns(moved)
+    return setColumns({...columns, ...moved})
   }
+
+  const fetchData = async () => {
+    setLoading(true)
+    const {data: clients} = await getClient()
+    const {data: techs} = await getEmployees()
+    let techColumnObject;
+    _.map(techs, (tech) => {
+      techColumnObject = {...techColumnObject, [_.get(tech, 'user_id')]: []}
+    })
+    setTech(techs);
+    setColumns({
+      clients: clients,
+      ...techColumnObject
+    })
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   return(
     <div className={classes.root}>
       <PageSubHeader title="Checked in" classes={{root: classes.header, title: classes.title}}/>
       <div className={classes.body}>
         <DragDropContext onDragEnd={onDragEnd}>
-          <DroppableColumn id="column1" items={columns['column1']} title="Checked in Clients"/>
-          <DroppableColumn id="column2" items={columns['column2']} title="Tech 1"/>
+          <ClientDroppableColumn id="clients" items={columns['clients']} title="Client Waitlist" />
+          <div className={classes.employees}>
+            {_.map(techs, (tech) => {
+              return <DroppableColumn id={tech.user_id} items={columns[tech.user_id]} title={tech.name}/>
+            })}
+          </div>
         </DragDropContext>
-
       </div>
     </div>
   )
