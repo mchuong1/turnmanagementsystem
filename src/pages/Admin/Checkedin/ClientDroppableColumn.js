@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { Paper, Divider, Typography } from '@material-ui/core';
 import _ from 'lodash';
+import moment from 'moment';
 
 const useStyles = makeStyles({
   root: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
   },
   listItem: {
     display: 'flex',
-    alignItems: 'center',
+    flexDirection: 'column',
     borderRadius: '.2em',
     padding: '.5em .8em .5em .5em',
     marginBottom: '1em',
@@ -33,7 +34,7 @@ const useStyles = makeStyles({
 export default function DroppableColumn(props){
 
   const classes = useStyles();
-  const { id, items, title } = props;
+  const { id, title, items } = props;
 
   const getListStyle = isDraggingOver => ({
     background: isDraggingOver ? '#e2f3f5' : 'white',
@@ -48,21 +49,21 @@ export default function DroppableColumn(props){
         ref={provided.innerRef}
         style={getListStyle(snapshot.isDraggingOver)}
       >
-        <Typography variant='h8' style={{fontWeight: 'bold'}}>{title}</Typography>
+        <Typography variant='h6'>{title}</Typography>
         <Divider style={{marginBottom: '1em'}}/>
-        {_.map(items, ({_id, user_id, name}, index) => {
+        {_.map(items, ({ _id, name, created_at, services }, index) => {
           return (
-            <Draggable key={_id ?? user_id} draggableId={_id ?? user_id} index={index}>
+            <Draggable key={_id} draggableId={_id} index={index}>
               {(provided) => 
                 <Paper
+                  key={_id}
                   className={classes.listItem}
                   ref={provided.innerRef}
                   {...provided.draggableProps} 
                   {...provided.dragHandleProps}
                   >
-                  <p>
-                    {name}
-                  </p>
+                  <p>{`${moment(created_at).format('hh:mm A')} | ${name} `}</p>
+                  <span>{services.join(', ')}</span>
                 </Paper>
               }
             </Draggable>
