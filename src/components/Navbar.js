@@ -20,11 +20,12 @@ const useStyles = makeStyles({
     height: '100%',
   },
   gutters: {
-    paddingLeft: '24px'
+    paddingLeft: '24px',
   },
   list: {
     color: 'white',
-    backgroundColor: '#0e153a'
+    backgroundColor: '#0e153a',
+    minWidth: '72px',
   },
   divider: {
     backgroundColor: 'white'
@@ -77,7 +78,7 @@ function Navbar(props) {
 
   return(
     <Drawer variant="permanent" open={open} classes={{root: classes.root, paper: classes.list}}>
-      <Toolbar>
+      <Toolbar style={{minHeight: '64px'}} classes={{gutters: classes.gutters}}>
         <IconButton
           edge="start"
           onClick={toggleDrawer}
