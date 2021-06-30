@@ -94,6 +94,11 @@ export default function Checkedin() {
     return result;
   };
 
+  /**
+   * Handle what happens when dropping the item
+   * @param {object} result - Droppable object 
+   * @returns null
+   */
   const onDragEnd = result => {
     const { source, destination } = result;
       
@@ -114,6 +119,10 @@ export default function Checkedin() {
       source,
       destination
     )
+    const techIndex = techs.map(tech => tech.user_id).indexOf(destination.droppableId)
+    const sortedTechs = techs;
+    sortedTechs.push(sortedTechs.splice(techIndex, 1)[0])
+    setTech(sortedTechs)
     return setColumns({...columns, ...moved})
   }
 
