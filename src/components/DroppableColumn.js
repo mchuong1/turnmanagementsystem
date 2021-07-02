@@ -1,8 +1,8 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Paper, Divider, Typography } from '@material-ui/core';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
-import { Paper, Divider, Typography } from '@material-ui/core';
 import _ from 'lodash';
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles({
   root: {
@@ -50,9 +50,9 @@ export default function DroppableColumn(props){
       >
         <Typography variant='h8' style={{fontWeight: 'bold'}}>{title}</Typography>
         <Divider style={{marginBottom: '1em'}}/>
-        {_.map(items, ({_id, user_id, name}, index) => {
-          return (
-            <Draggable key={_id ?? user_id} draggableId={_id ?? user_id} index={index}>
+        {_.map(items, ({_id, user_id:userId, name}, index) => 
+            <Draggable key={_id ?? userId} draggableId={_id ?? userId} index={index}>
+              {/* eslint-disable-next-line no-shadow */}
               {(provided) => 
                 <Paper
                   className={classes.listItem}
@@ -67,10 +67,20 @@ export default function DroppableColumn(props){
               }
             </Draggable>
           )
-        })}
+        }
         {provided.placeholder}
       </Paper>
     }
   </Droppable>
   )
+}
+
+DroppableColumn.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  items: PropTypes.shape({}).isRequired,
+  user_id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  created_at: PropTypes.string.isRequired,
+  services: PropTypes.arrayOf(PropTypes.string).isRequired,
 }

@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 export default function Admin(props) {
   const classes = useStyles()
 
-  let { path } = useRouteMatch();
+  const { path } = useRouteMatch();
 
   return(
     <>

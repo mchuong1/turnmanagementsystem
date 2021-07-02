@@ -27,7 +27,7 @@ const useStyles = makeStyles({
   }
 })
 
-export default function Employees(props) {
+export default function Employees() {
 
   const classes = useStyles();
 
@@ -35,9 +35,7 @@ export default function Employees(props) {
     <div className={classes.root}>
       <PageSubHeader title="Employees" classes={{root: classes.header, title: classes.title}}/>
       <div className={classes.body}>
-        <div className={classes.buttonBar}>
-        </div>
-        <EmployeesTable {...props}/>
+        <EmployeesTable />
       </div>
     </div>
   )

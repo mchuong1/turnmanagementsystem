@@ -2,6 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Container, Typography } from '@material-ui/core';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
   root: {
@@ -43,4 +44,10 @@ export default function Confirmation(props) {
       </Container>
     </>
   )
+}
+
+Confirmation.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 }

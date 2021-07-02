@@ -36,7 +36,7 @@ const useStyles = makeStyles({
   }
 })
 
-export default function EmployeesTable(props){
+export default function EmployeesTable(){
   const classes = useStyles();
   const [rows, setRows] = useState([]);
   const [isLoading, setLoading] = useState(false);
