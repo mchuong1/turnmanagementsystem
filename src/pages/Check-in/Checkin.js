@@ -94,9 +94,9 @@ function Checkin(props) {
       history.push(`${url}/confirm`);
       setCheckingIn(false);
     } catch (e) {
-      console.error(e);
-      setCheckingIn(false);
+      throw new Error(e)
     }
+    setCheckingIn(false);
   };
 
   const formik = useFormik({
