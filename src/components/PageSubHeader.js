@@ -124,7 +124,18 @@ const PageSubHeader = (props) => {
 };
 
 PageSubHeader.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
+  classes: PropTypes.shape({
+    relativeWrapper: PropTypes.shape({}),
+    fixedWrapper: PropTypes.shape({}),
+    root: PropTypes.shape({}),
+    title: PropTypes.shape({}),
+    navButtonsWrapper: PropTypes.shape({}),
+    navButtonWrapper: PropTypes.shape({}),
+    navButton: PropTypes.shape({}),
+    navButtonActive: PropTypes.shape({}),
+    actionItems: PropTypes.shape({}),
+    actionItem: PropTypes.shape({})
+  }).isRequired,
   title: PropTypes.node.isRequired,
   navButtons: PropTypes.arrayOf(PropTypes.object),
   actionItems: PropTypes.arrayOf(PropTypes.node),

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Typography, Paper, Divider, CircularProgress } from '@material-ui/core';
 import { DragDropContext } from 'react-beautiful-dnd';
+import _, { indexOf } from 'lodash';
+
 import { getClient } from '../../../service/clientService';
 import { getEmployees } from '../../../service/authService';
-
 import PageSubHeader from '../../../components/PageSubHeader';
 import ClientDroppableColumn from './ClientDroppableColumn';
 import DroppableColumn from '../../../components/DroppableColumn';
-import _, { indexOf } from 'lodash';
-import { Typography, Paper, Divider, CircularProgress } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {
@@ -110,7 +109,8 @@ export default function Checkedin() {
         source.index,
         destination.index
       );
-      return setColumns({...columns, [source.droppableId] : items})
+      setColumns({...columns, [source.droppableId] : items})
+      return;
     }
     
     const moved = move(
@@ -123,20 +123,20 @@ export default function Checkedin() {
     const sortedTechs = techs;
     sortedTechs.push(sortedTechs.splice(techIndex, 1)[0])
     setTech(sortedTechs)
-    return setColumns({...columns, ...moved})
+    setColumns({...columns, ...moved})
   }
 
   const fetchData = async () => {
     setLoading(true)
     const {data: clients} = await getClient()
-    const {data: techs} = await getEmployees()
+    const {data: technicians} = await getEmployees()
     let techColumnObject;
-    _.map(techs, (tech) => {
+    _.map(technicians, (tech) => {
       techColumnObject = {...techColumnObject, [_.get(tech, 'user_id')]: []}
     })
-    setTech(techs);
+    setTech(technicians);
     setColumns({
-      clients: clients,
+      clients,
       ...techColumnObject,
     })
     setLoading(false)
@@ -152,14 +152,14 @@ export default function Checkedin() {
       <div className={classes.body}>
       {isLoading ? <CircularProgress /> : 
         <DragDropContext onDragEnd={onDragEnd}>
-          <ClientDroppableColumn id="clients" items={columns['clients']} title="Client Waitlist" />
+          <ClientDroppableColumn id="clients" items={columns.clients} title="Client Waitlist" />
           <Paper classes={{root: classes.employeeColumn}}>
             <Typography variant='h6' style={{marginBottom: 0}}>Employees</Typography>
             <Divider style={{marginBottom: '15px'}}/>
             <div className={classes.employees}>
-              {_.map(techs, (tech) => {
-                return <DroppableColumn id={tech.user_id} items={columns[tech.user_id]} title={`${indexOf(techs, tech) + 1} ${tech.name}`}/>
-              })}
+              {_.map(techs, (tech) => 
+                <DroppableColumn id={tech.user_id} items={columns[tech.user_id]} title={`${indexOf(techs, tech) + 1} ${tech.name}`}/>
+              )}
             </div>
           </Paper>
         </DragDropContext>

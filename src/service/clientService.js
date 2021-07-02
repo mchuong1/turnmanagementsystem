@@ -4,7 +4,7 @@ import fileDownload from 'js-file-download';
 const hostUrl = '/.netlify/functions'
 
 export function saveClient(data) {
-  return Axios.request({method: 'post', url: `${hostUrl}/clients`, data: data});
+  return Axios.request({method: 'post', url: `${hostUrl}/clients`, data});
 };
 
 export function getClient() {

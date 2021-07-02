@@ -1,11 +1,12 @@
 import Axios from 'axios';
+
 const hostUrl = '/.netlify/functions';
 
-export function getEmployees(){
-  const options = { 
+export const getEmployees = () => {
+  const options = {
     method: 'get',
     url: `${hostUrl}/employee`,
-    headers: { 
+    headers: {
       'content-type': 'application/json',
     },
   };

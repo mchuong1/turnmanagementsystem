@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 function Client() {
   const classes = useStyles();
 
-  let { path } = useRouteMatch();
+  const { path } = useRouteMatch();
 
   return (
     <div data-test="component-app">
@@ -46,7 +46,7 @@ function Client() {
         </Switch>
       </div>
       <div className={classes.footer}>
-          <span>Copyright © 2021, Polish Nail, Inc. "Polish Nail" and logo are registered trademarks of Polish Nail, Inc</span>
+          <span>Copyright © 2021, Polish Nail, Inc. `&quot;`Polish Nail`&quot;` and logo are registered trademarks of Polish Nail, Inc</span>
       </div>
     </div>
   );

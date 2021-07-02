@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import { BrowserRouter } from 'react-router-dom';
+import { Auth0Provider } from '@auth0/auth0-react';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom'
-import { Auth0Provider } from '@auth0/auth0-react';
 
 ReactDOM.render(
   <Auth0Provider
-    domain="mc-manage.us.auth0.com"
+    domain='mc-manage.us.auth0.com'
     clientId={process.env.REACT_APP_AUTH0_CLIENTID}
     redirectUri={`${window.location.origin}/dashboard`}
   >
@@ -16,7 +16,7 @@ ReactDOM.render(
       <App />
     </BrowserRouter>
   </Auth0Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function

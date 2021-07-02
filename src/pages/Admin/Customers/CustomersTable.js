@@ -7,8 +7,8 @@ import {
   Divider,
   CircularProgress
 } from '@material-ui/core'
-import { getClient } from '../../../service/clientService';
 import _ from 'lodash'
+import { getClient } from '../../../service/clientService';
 
 
 const useStyles = makeStyles({
