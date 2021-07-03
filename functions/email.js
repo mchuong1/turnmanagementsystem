@@ -3,7 +3,7 @@
 // https://github.com/sendgrid/sendgrid-nodejs
 const sgMail = require('@sendgrid/mail')
 
-module.exports.handler = async (event, content) => {
+module.exports.handler = async () => {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY)
   const msg = {
     to: 'mchuong1993@gmail.com', // Change to your recipient

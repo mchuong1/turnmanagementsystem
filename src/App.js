@@ -12,7 +12,7 @@ function App() {
   const { loginWithRedirect } = useAuth0();
 
   return (
-    <div data-test="component-app" style={{height: '100%', overflowY: 'hidden'}}>
+    <div data-test="component-app" style={{height: '100%'}}>
       <Switch>
         <Route exact path="/" component={() => loginWithRedirect()} />
         <Route path="/login" component={() => loginWithRedirect()} />
