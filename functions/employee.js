@@ -41,7 +41,7 @@ function getToken(){
   return axios.request(options)
 }
 
-module.exports.handler = async (event, context) => {
+module.exports.handler = async () => {
   const { data: token } = await getToken();
   const { data: employees } = await getEmployees(token.access_token)
 
