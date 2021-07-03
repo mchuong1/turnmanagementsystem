@@ -1,19 +1,22 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter as Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Switch, Route } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 import Client from './pages/Check-in/Client';
 import PrivateRoute from './components/PrivateRoute';
 import Admin from './pages/Admin/Admin';
-import Login from './components/Login';
 
 function App() {
+
+  const { loginWithRedirect } = useAuth0();
+
   return (
-    <div data-test="component-app" style={{height: '100%'}}>
+    <div data-test="component-app" style={{height: '100%', overflowY: 'hidden'}}>
       <Switch>
-        <Route exact path="/"><Redirect to="/login" /></Route>
+        <Route exact path="/" component={() => loginWithRedirect()} />
+        <Route path="/login" component={() => loginWithRedirect()} />
         <Route path='/checkin' component={Client} />
-        <Route path="/login" component={Login} />
         <PrivateRoute path="/dashboard" component={Admin} />
       </Switch>
     </div>
