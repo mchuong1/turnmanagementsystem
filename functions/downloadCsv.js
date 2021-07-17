@@ -1,5 +1,6 @@
 const {connectToDatabase, downloadResource} = require('../lib/database');
-const MONGODB_URI = process.env.MONGODB_URI;
+
+const { MONGODB_URI } = process.env;
 
 module.exports.handler = async (event, context) => {
   // otherwise the connection will never complete, since
@@ -15,7 +16,7 @@ module.exports.handler = async (event, context) => {
     },
     {
       label: 'Phone Number',
-      value: 'phoneNumber'
+      value: 'phone_number'
     }
   ];
   const csv = downloadResource(fields, clients);
