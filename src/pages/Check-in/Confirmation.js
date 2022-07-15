@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    height: '80vh'
+    height: '100%'
   },
   icon:{
     color: '#fc5c9c',
