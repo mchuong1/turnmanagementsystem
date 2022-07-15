@@ -36,7 +36,7 @@ function Client() {
   const classes = useStyles();
 
   return (
-    <div data-test="component-app" style={{ height: '100%' }}>
+    <div data-test="component-app">
       <Header />
       <div className={classes.body}>
         <Switch>
