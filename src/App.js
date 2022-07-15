@@ -14,10 +14,10 @@ function App() {
   return (
     <div data-test="component-app" style={{height: '100%'}}>
       <Switch>
-        <Route exact path="/" component={() => loginWithRedirect()} />
-        <Route path="/login" component={() => loginWithRedirect()} />
+        <Route exact path="/" component={Client} />
+        {/* <Route path="/login" component={() => loginWithRedirect()} />
         <Route path='/checkin' component={Client} />
-        <PrivateRoute path="/dashboard" component={Admin} />
+        <PrivateRoute path="/dashboard" component={Admin} /> */}
       </Switch>
     </div>
   );

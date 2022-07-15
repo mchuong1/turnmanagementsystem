@@ -19,7 +19,7 @@ export default function Header() {
     <AppBar position="static">
       <Toolbar variant="dense" classes={{root: classes.primary}}>
         <Typography variant="h6" color="inherit">
-          Polish Nail Salon
+          VieConnex
         </Typography>
       </Toolbar>
     </AppBar>

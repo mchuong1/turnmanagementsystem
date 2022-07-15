@@ -33,11 +33,11 @@ export default function Confirmation(props) {
       <Container classes={{root: classes.root}}>
         <Typography variant="h3">Confirmed</Typography>
         <CheckCircleOutlineIcon classes={{root: classes.icon}}/>
-        <Typography>You should get a text message shortly with information regarding your appointment!</Typography>
+        <Typography>Thank you !</Typography>
         <Button
           className={classes.primary}
           variant="contained"
-          onClick={() => history.push('/checkin')}
+          onClick={() => history.push('/')}
         >
           Start Over
         </Button>

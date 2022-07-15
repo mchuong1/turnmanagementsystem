@@ -16,6 +16,6 @@ export function downloadCSV(){
   .then((response) => fileDownload(response.data, 'customers.csv'));
 }
 
-export function sendEmail() {
-  return Axios.request({method: 'get', url: `${hostUrl}/email`});
+export function sendEmail(data) {
+  return Axios.request({method: 'post', url: `${hostUrl}/email`, data});
 }

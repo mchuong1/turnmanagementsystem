@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { BrowserRouter as Switch, Route, useRouteMatch } from 'react-router-dom';
+import { BrowserRouter as Switch, Route } from 'react-router-dom';
 
 import Header from '../../components/Header'
 import Confirmation from './Confirmation';
@@ -15,7 +15,8 @@ const useStyles = makeStyles({
     display: 'grid',
     gridGap: '2em',
     padding: '2em 20px',
-    backgroundColor: '#fcefee'
+    backgroundColor: '#fcefee',
+    height: '100%',
   },
   footer: {
     backgroundColor: '#fc5c9c',
@@ -34,19 +35,17 @@ const useStyles = makeStyles({
 function Client() {
   const classes = useStyles();
 
-  const { path } = useRouteMatch();
-
   return (
     <div data-test="component-app">
       <Header />
       <div className={classes.body}>
         <Switch>
-          <Route exact path={path} component={Checkin} />
-          <Route path={`${path}/confirm`} component={Confirmation} />
+          <Route exact path="/" component={Checkin} />
+          <Route path="/confirm" component={Confirmation} />
         </Switch>
       </div>
       <div className={classes.footer}>
-          <span>Copyright © 2021, Polish Nail, Inc. `&quot;`Polish Nail`&quot;` and logo are registered trademarks of Polish Nail, Inc</span>
+          <span>Copyright © 2022, VieConnex `&quot;`VieConnex`&quot;` and logo are registered trademarks of VieConnex</span>
       </div>
     </div>
   );
