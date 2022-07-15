@@ -1,27 +1,17 @@
+import _ from 'lodash';
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  Button,
-  TextField,
-  Select,
-  InputLabel,
-  MenuItem,
-  Checkbox,
-  ListItemText,
-  FormControl,
-  Typography,
-  Card,
-  CardContent,
-  CircularProgress,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
+  Button, TextField, Typography,
+  Card, CardContent, CircularProgress, Select, MenuItem, FormControl, InputLabel, FormHelperText,
 } from '@material-ui/core';
-import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { withRouter, useRouteMatch } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { saveClient } from '../../service/clientService';
+import { useFormik } from 'formik';
+import { withRouter } from 'react-router-dom';
+import { DesktopDatePicker } from '@mui/x-date-pickers';
+import { sendEmail } from '../../service/clientService';
+import { states } from '../../service/utils';
 
 const useStyles = makeStyles({
   root: {
@@ -55,70 +45,52 @@ const useStyles = makeStyles({
 });
 
 const validationSchema = yup.object({
-  name: yup.string('Enter your Name.').required('Name is required.'),
-  phoneNumber: yup
-    .string('Enter your Phone Number.')
-    .required('Phone Number is required.'),
-  appointmentType: yup
-    .string()
-    .oneOf(['appointment', 'walk-in'])
-    .required('Please select one.'),
+  first_name: yup.string('Enter your First Name.').required('Required.'),
+  last_name: yup.string('Enter your Last Number.').required('Required.'),
+  phoneNumber: yup.string('Enter your Phone Number.').required('Required.'),
+  address_line_1: yup.string('Enter your Address Line 1.').required('Required.'),
+  address_line_2: yup.string('Enter your Address Line 2.'),
+  city: yup.string('Enter your City.').required('Required.'),
+  state: yup.string('Enter your State.').required('Required.'),
+  zip: yup.string('Enter your Zip Code.').required('Required.'),
+  license_number: yup.string('Enter your license number.').matches(/[A-Z]{2}[0-9]{7}/, 'License Number need to start with 2 letters followed by 7 numbers').required('Required.'),
+  expiration_date: yup.date().required('Required')
 });
 
 function Checkin(props) {
   const classes = useStyles();
   const { history } = props;
-  const { url } = useRouteMatch();
 
   const [isCheckingIn, setCheckingIn] = useState(false);
 
-  // Mock Data
-  // TODO: Fetch the data from somewhere
-  const hands = ['Manicure', 'Nails', 'Basic'];
-  const foot = ['Pedicure', 'Massage', 'Item', 'Service'];
-  const wax = ['Service 1', 'Service 2', 'Service 3', 'Service 4'];
-
   const handleCheckInButton = async (values) => {
-    const {
-      name,
-      phoneNumber,
-      appointmentType,
-      handService,
-      footService,
-      waxService,
-    } = values;
-    const services = [...handService, ...footService, ...waxService];
     setCheckingIn(true);
     try {
-      await saveClient({ name, phoneNumber, appointmentType, services });
-      history.push(`${url}/confirm`);
+      await sendEmail(values);
+      history.push(`/confirm`);
       setCheckingIn(false);
     } catch (e) {
-      throw new Error(e)
+      throw new Error(e);
     }
     setCheckingIn(false);
   };
 
   const formik = useFormik({
     initialValues: {
-      name: '',
+      first_name: '',
+      last_name: '',
       phoneNumber: '',
-      handService: [],
-      footService: [],
-      waxService: [],
-      appointmentType: '',
+      address_line_1: '',
+      address_line_2: '',
+      city: '',
+      state: '',
+      zip: '',
+      license_number: '',
+      expiration_date: '',
     },
     validationSchema,
     onSubmit: (values) => handleCheckInButton(values),
   });
-
-  const listValues = (data, type) =>
-    data.map((service) => (
-      <MenuItem key={service} value={service}>
-        <Checkbox checked={type.indexOf(service) > -1} />
-        <ListItemText primary={service} />
-      </MenuItem>
-    ));
 
   return (
     <Card>
@@ -129,13 +101,23 @@ function Checkin(props) {
         <form className={classes.root} onSubmit={formik.handleSubmit}>
           <TextField
             className={classes.input}
-            id='name'
-            name='name'
-            label='Name'
-            value={formik.values.name}
+            id='first_name'
+            name='first_name'
+            label='First Name'
+            value={formik.values.first_name}
             onChange={formik.handleChange}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
+            error={formik.touched.first_name && Boolean(formik.errors.first_name)}
+            helperText={formik.touched.first_name && formik.errors.first_name}
+          />
+          <TextField
+            className={classes.input}
+            id='last_name'
+            name='last_name'
+            label='Last Name'
+            value={formik.values.last_name}
+            onChange={formik.handleChange}
+            error={formik.touched.last_name && Boolean(formik.errors.last_name)}
+            helperText={formik.touched.last_name && formik.errors.last_name}
           />
           <TextField
             className={classes.input}
@@ -144,82 +126,91 @@ function Checkin(props) {
             label='Phone Number'
             value={formik.values.phoneNumber}
             onChange={formik.handleChange}
-            error={
-              formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
-            }
+            error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
             helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
             inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
           />
-          <Typography variant='h6' style={{ marginBottom: '-50px' }}>
-            Services
-          </Typography>
-          <FormControl>
-            <InputLabel id='handservice'>Hand Services</InputLabel>
-            <Select
-              labelId='handservice'
-              name='handService'
-              multiple
-              value={formik.values.handService}
-              renderValue={(selected) => selected.join(', ')}
-              onChange={formik.handleChange}
-            >
-              {listValues(hands, formik.values.handService)}
-            </Select>
-          </FormControl>
-          <FormControl>
-            <InputLabel id='footservice'>Foot Services</InputLabel>
-            <Select
-              labelId='footservice'
-              name='footService'
-              multiple
-              value={formik.values.footService}
-              renderValue={(selected) => selected.join(', ')}
-              onChange={formik.handleChange}
-            >
-              {listValues(foot, formik.values.footService)}
-            </Select>
-          </FormControl>
-          <FormControl>
-            <InputLabel id='waxservice'>Wax Services</InputLabel>
-            <Select
-              labelId='waxservice'
-              name='waxService'
-              multiple
-              value={formik.values.waxService}
-              renderValue={(selected) => selected.join(', ')}
-              onChange={formik.handleChange}
-            >
-              {listValues(wax, formik.values.waxService)}
-            </Select>
-          </FormControl>
-          <RadioGroup
-            classes={{ root: classes.radio }}
-            aria-label='type'
-            name='appointmentType'
-            value={formik.values.appointmentType}
+          <TextField
+            className={classes.input}
+            id='address_line_1'
+            name='address_line_1'
+            label='Address Line 1'
+            value={formik.values.address_line_1}
             onChange={formik.handleChange}
+            error={formik.touched.address_line_1 && Boolean(formik.errors.address_line_1)}
+            helperText={formik.touched.address_line_1 && formik.errors.address_line_1}
+          />
+          <TextField
+            className={classes.input}
+            id='address_line_2'
+            name='address_line_2'
+            label='Address Line 2'
+            value={formik.values.address_line_2}
+            onChange={formik.handleChange}
+            error={formik.touched.address_line_2 && Boolean(formik.errors.address_line_2)}
+            helperText={formik.touched.address_line_2 && formik.errors.address_line_2}
+          />
+          <TextField
+            className={classes.input}
+            id='city'
+            name='city'
+            label='City'
+            value={formik.values.city}
+            onChange={formik.handleChange}
+            error={formik.touched.city && Boolean(formik.errors.city)}
+            helperText={formik.touched.city && formik.errors.city}
+          />
+          <FormControl
+            error={formik.touched.state && Boolean(formik.errors.state)}
           >
-            <FormControlLabel
-              value='appointment'
-              control={<Radio />}
-              label='Appointment'
-            />
-            <FormControlLabel
-              value='walk-in'
-              control={<Radio />}
-              label='Walk-in'
-            />
-            <InputLabel
-              error={
-                formik.touched.appointmentType &&
-                Boolean(formik.errors.appointmentType)
-              }
+            <InputLabel>States</InputLabel>
+            <Select
+              id="states"
+              name="states"
+              label="States"
+              value={formik.values.state}
+              onChange={(event) => formik.setFieldValue('state', event.target.value)}
             >
-              {formik.touched.appointmentType && formik.errors.appointmentType}
-            </InputLabel>
-          </RadioGroup>
+              {
+                _.map(states, state => (
+                  <MenuItem value={state.value}>{state.label}</MenuItem>
+                ))
+              }
+            </Select>
+            <FormHelperText>{formik.touched.state && formik.errors.state }</FormHelperText>
+          </FormControl>
+          <TextField
+            className={classes.input}
+            id='zip'
+            name='zip'
+            label='Zip'
+            value={formik.values.zip}
+            onChange={formik.handleChange}
+            error={formik.touched.zip && Boolean(formik.errors.zip)}
+            helperText={formik.touched.zip && formik.errors.zip}
+          />
+          <TextField
+            className={classes.input}
+            id='license_number'
+            name='license_number'
+            label='License Number'
+            value={formik.values.license_number}
+            onChange={formik.handleChange}
+            error={formik.touched.license_number && Boolean(formik.errors.license_number)}
+            helperText={formik.touched.license_number && formik.errors.license_number}
+          />
+          <DesktopDatePicker
+            id="expiration_date"
+            name="expiration_date"
+            label="Expiration Date"
+            inputFormat="MM/dd/yyyy"
+            value={formik.values.expiration_date}
+            onChange={event => formik.setFieldValue('expiration_date', event)}
+            renderInput={(params) => <TextField {...params} />}
+            disablePast
+          />
           <Button className={classes.primary} variant='contained' type='submit'>
-            {isCheckingIn ? <CircularProgress size={24} /> : 'Check in!'}
+            {isCheckingIn ? <CircularProgress size={24} /> : 'Submit'}
           </Button>
         </form>
       </CardContent>
@@ -231,6 +222,6 @@ Checkin.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-}
+};
 
 export default withRouter(Checkin);
