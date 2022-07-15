@@ -36,7 +36,7 @@ function Client() {
   const classes = useStyles();
 
   return (
-    <div data-test="component-app">
+    <div data-test="component-app" style={{ height: '100%' }}>
       <Header />
       <div className={classes.body}>
         <Switch>
@@ -45,7 +45,7 @@ function Client() {
         </Switch>
       </div>
       <div className={classes.footer}>
-          <span>Copyright © 2022, VieConnex `&quot;`VieConnex`&quot;` and logo are registered trademarks of VieConnex</span>
+          <span>Copyright © 2022, VieConnex `&quot;`VieConnex`&quot;` and logo are registered trademarks of VTek</span>
       </div>
     </div>
   );

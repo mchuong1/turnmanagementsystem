@@ -33,7 +33,7 @@ export default function Confirmation(props) {
       <Container classes={{root: classes.root}}>
         <Typography variant="h3">Confirmed</Typography>
         <CheckCircleOutlineIcon classes={{root: classes.icon}}/>
-        <Typography>Thank you !</Typography>
+        <Typography>Thank you! We will have somebody get in touch with you shortly.</Typography>
         <Button
           className={classes.primary}
           variant="contained"
