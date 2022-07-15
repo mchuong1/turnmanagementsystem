@@ -5,10 +5,11 @@ import {
   Button, TextField, Typography,
   Card, CardContent, CircularProgress, Select, MenuItem, FormControl, InputLabel, FormHelperText,
 } from '@material-ui/core';
-import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useFormik } from 'formik';
+import { withRouter } from 'react-router-dom';
+import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { sendEmail } from '../../service/clientService';
 import { states } from '../../service/utils';
 
@@ -53,6 +54,7 @@ const validationSchema = yup.object({
   state: yup.string('Enter your State.').required('Required.'),
   zip: yup.string('Enter your Zip Code.').required('Required.'),
   license_number: yup.string('Enter your license number.').matches(/[A-Z]{2}[0-9]{7}/, 'License Number need to start with 2 letters followed by 7 numbers').required('Required.'),
+  expiration_date: yup.date().required('Required')
 });
 
 function Checkin(props) {
@@ -84,6 +86,7 @@ function Checkin(props) {
       state: '',
       zip: '',
       license_number: '',
+      expiration_date: '',
     },
     validationSchema,
     onSubmit: (values) => handleCheckInButton(values),
@@ -195,6 +198,16 @@ function Checkin(props) {
             onChange={formik.handleChange}
             error={formik.touched.license_number && Boolean(formik.errors.license_number)}
             helperText={formik.touched.license_number && formik.errors.license_number}
+          />
+          <DesktopDatePicker
+            id="expiration_date"
+            name="expiration_date"
+            label="Expiration Date"
+            inputFormat="MM/dd/yyyy"
+            value={formik.values.expiration_date}
+            onChange={event => formik.setFieldValue('expiration_date', event)}
+            renderInput={(params) => <TextField {...params} />}
+            disablePast
           />
           <Button className={classes.primary} variant='contained' type='submit'>
             {isCheckingIn ? <CircularProgress size={24} /> : 'Submit'}

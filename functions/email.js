@@ -6,7 +6,7 @@ const sendEmail = async (event) => {
   const {
     first_name, last_name, phoneNumber,
     address_line_1, address_line_2, city,
-    state, zip, license_number
+    state, zip, license_number, expiration_date
   } = JSON.parse(event.body);
   console.log(event.body)
   const DOMAIN = 'vieconnex.net';
@@ -35,6 +35,7 @@ const sendEmail = async (event) => {
       ${first_name} ${last_name} is looking for a job.
       Please contact using ${phoneNumber}
       License Number: ${license_number}
+      Expiration Date: ${expiration_date}
 
       ${address_line_1}
       ${address_line_2}
