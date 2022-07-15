@@ -53,7 +53,7 @@ const validationSchema = yup.object({
   city: yup.string('Enter your City.').required('Required.'),
   state: yup.string('Enter your State.').required('Required.'),
   zip: yup.string('Enter your Zip Code.').required('Required.'),
-  license_number: yup.string('Enter your license number.').matches(/[A-Z]{2}[0-9]{7}/, 'License Number need to start with 2 letters followed by 7 numbers').required('Required.'),
+  license_number: yup.string('Enter your license number.').matches(/[A-Za-z]{2}[0-9]{7}/, 'License Number need to start with 2 letters followed by 7 numbers').required('Required.'),
   expiration_date: yup.date().required('Required')
 });
 
